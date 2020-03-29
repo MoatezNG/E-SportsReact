@@ -2,6 +2,10 @@ import { userConstants } from "../_constants";
 
 export function users(state = {}, action) {
   switch (action.type) {
+    case userConstants.REGISTER_SUCCESS:
+      return {
+        ...state,
+      }
     case userConstants.GETALL_REQUEST:
       return {
         loading: true

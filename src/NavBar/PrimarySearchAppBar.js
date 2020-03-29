@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom'
 import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -27,6 +28,10 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { useSelector, useDispatch } from "react-redux";
 import { drawerAction } from "../_actions";
+
+// auth utils
+import { isUserAuthenticated } from '../utils/authUtils'
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -143,6 +148,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const PrimarySearchAppBar = () => {
+
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -261,28 +267,39 @@ export const PrimarySearchAppBar = () => {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
+          {
+            isUserAuthenticated() ? (
+              <div className={classes.sectionDesktop}>
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                  <Badge badgeContent={4} color="secondary">
+                    <MailIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton aria-label="show 17 new notifications" color="inherit">
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </div>
+            ) : (
+                // @Todo: remove inline style
+                <div style={{ display: "flex", justifyContent: "space-between", width: 110 }}>
+                  <Link style={{ color: "white", fontSize: 16 }} to="/login" >Login</Link>
+                  <Link style={{ color: "white", fontSize: 16 }} to="/register" >register</Link>
+                </div>
+              )
+          }
+          {/*  */}
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
@@ -310,8 +327,8 @@ export const PrimarySearchAppBar = () => {
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
-              <ChevronRightIcon />
-            )}
+                <ChevronRightIcon />
+              )}
           </IconButton>
         </div>
         <Divider />
