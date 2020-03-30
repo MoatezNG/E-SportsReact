@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
+import GroupIcon from "@material-ui/icons/Group";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
@@ -27,6 +28,10 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { useSelector, useDispatch } from "react-redux";
 import { drawerAction } from "../_actions";
+import { notificationActions } from "../_actions";
+import { withStyles } from "@material-ui/core/styles";
+import { InvitesList } from "../NavBar/InvitesList";
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
@@ -141,16 +146,57 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0
   }
 }));
+const StyledMenu = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5"
+  }
+})(props => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center"
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center"
+    }}
+    {...props}
+  />
+));
+
+const StyledMenuItem = withStyles(theme => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white
+      }
+    }
+  }
+}))(MenuItem);
 
 export const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const theme = useTheme();
+  const notif = useSelector(state => state.notification);
   const open = useSelector(state => state.drawer);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [user] = React.useState(JSON.parse(localStorage.getItem("user")));
+
+  const handleClick = event => {
+    setAnchorEl1(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl1(null);
+  };
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
@@ -167,7 +213,15 @@ export const PrimarySearchAppBar = () => {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+  const someFetchActionCreator = e => {
+    dispatch(notificationActions.getNotification(user.user._id));
+  };
 
+  useEffect(() => {
+    someFetchActionCreator();
+  }, []);
+
+  const numNotif = notif.length;
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -246,6 +300,7 @@ export const PrimarySearchAppBar = () => {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Material-UI
+            <InvitesList />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -262,6 +317,20 @@ export const PrimarySearchAppBar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show" color="inherit" onClick={handleClick}>
+              <Badge badgeContent={numNotif} color="secondary">
+                <GroupIcon />
+              </Badge>
+            </IconButton>
+            <StyledMenu
+              id="customized-menu"
+              anchorEl={anchorEl1}
+              keepMounted
+              open={Boolean(anchorEl1)}
+              onClose={handleClose}
+            >
+              <StyledMenuItem></StyledMenuItem>
+            </StyledMenu>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon />
@@ -272,6 +341,7 @@ export const PrimarySearchAppBar = () => {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
             <IconButton
               edge="end"
               aria-label="account of current user"
