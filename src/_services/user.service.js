@@ -1,11 +1,23 @@
 
 import { authHeader } from '../_helpers';
 
-export const userService = {
-    login,
-    logout,
-    getAll
-};
+function handleResponse(response) {
+    return response.text().then(text => {
+        const data = text && JSON.parse(text);
+        if (!response.ok) {
+            if (response.status === 401) {
+                // auto logout if 401 response returned from api
+                logout();
+
+            }
+
+            const error = (data && data.message) || response.statusText;
+            return Promise.reject(error);
+        }
+
+        return data;
+    });
+}
 
 function login(email, password) {
     const requestOptions = {
@@ -35,7 +47,7 @@ function logout() {
     localStorage.removeItem('user');
     return fetch('http://localhost:3001/users/me/logout', requestOptions).then(handleResponse);
     // remove user from local storage to log user out
-   
+
 }
 
 function getAll() {
@@ -47,20 +59,30 @@ function getAll() {
     return fetch('http://localhost:3001/users/me', requestOptions).then(handleResponse);
 }
 
-function handleResponse(response) {
-    return response.text().then(text => {
-        const data = text && JSON.parse(text);
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                
+function register(user) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(user)
+    }
+
+    return fetch('http://localhost:3001/users/aa', requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            if (user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
             }
 
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+            return user;
+        })
 }
+
+
+
+export const userService = {
+    login,
+    logout,
+    getAll,
+    register
+};

@@ -3,11 +3,7 @@ import { userService } from "../_services";
 import { alertActions } from "./";
 import { history } from "../_helpers";
 
-export const userActions = {
-  login,
-  logout,
-  getAll
-};
+
 
 function login(username, password) {
   return dispatch => {
@@ -61,3 +57,37 @@ function getAll() {
     return { type: userConstants.GETALL_FAILURE, error };
   }
 }
+
+function register(user) {
+
+  function request() {
+    return { type: userConstants.REGISTER_REQUEST };
+  }
+  function success(user) {
+    return { type: userConstants.REGISTER_SUCCESS, user };
+  }
+  function failure(error) {
+    return { type: userConstants.REGISTER_FAILURE, error };
+  }
+
+  return dispatch => {
+    dispatch(request())
+
+    userService
+      .register(user)
+      .then(response => {
+        dispatch(success(response))
+        history.push('/')
+      })
+      .catch(error => {
+        dispatch(failure(error));
+      })
+  }
+}
+
+export const userActions = {
+  login,
+  logout,
+  getAll,
+  register
+};
