@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 import { makeStyles } from "@material-ui/core/styles";
-import {test} from "./test"
 import clsx from "clsx";
 export const Tournament = () => {
   const drawerWidth = 240;
@@ -69,7 +68,7 @@ export const Tournament = () => {
             <h1 key={tournaments[key].tournamentName}>
               {tournaments[key].tournamentName}{" "}
             </h1>
-            <button  ></button>
+            <button></button>
           </div>
         </main>
       </>

@@ -1,6 +1,5 @@
 import { tournamentService } from "../_services";
 import { tourConstants } from "../_constants";
-import { alertActions } from "./";
 
 export const tournamentActions = {
   getTournaments

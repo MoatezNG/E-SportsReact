@@ -5,7 +5,6 @@ import React, { useState } from "react";
 
 export const RegisterPage = () => {
   const loggingIn = useSelector(state => state.authentication);
-  const state = useSelector(state => state);
   console.log(loggingIn);
   const dispatch = useDispatch();
 

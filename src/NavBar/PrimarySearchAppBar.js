@@ -33,6 +33,7 @@ import { notificationActions } from "../_actions";
 import { tournamentActions } from "../_actions/tournament.actions";
 import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
+import { useHistory } from "react-router-dom";
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -194,12 +195,12 @@ export const PrimarySearchAppBar = () => {
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const [user] = React.useState(JSON.parse(localStorage.getItem("user")));
+  const user = localStorage.getItem("user");
+  const history = useHistory();
 
   const handleClick = event => {
     setAnchorEl1(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl1(null);
   };
@@ -219,14 +220,19 @@ export const PrimarySearchAppBar = () => {
   const handleMobileMenuOpen = event => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const someFetchActionCreator = e => {
-    dispatch(notificationActions.getNotification(user.user._id));
-  };
 
+  const routeChange = () => {
+    let path = `/login`;
+
+    history.push(path);
+  };
   useEffect(() => {
-    someFetchActionCreator();
-    console.log(notif);
-  }, []);
+    if (!user) return;
+    else {
+      const parsedUser = JSON.parse(localStorage.getItem("user"));
+      dispatch(notificationActions.getNotification(parsedUser.user._id));
+    }
+  }, [user, dispatch]);
 
   const numNotif = notif.length;
   const menuId = "primary-search-account-menu";
@@ -240,7 +246,7 @@ export const PrimarySearchAppBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={routeChange}>Logout</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -324,11 +330,6 @@ export const PrimarySearchAppBar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show" color="inherit" onClick={handleClick}>
-              <Badge badgeContent={numNotif} color="secondary">
-                <GroupIcon />
-              </Badge>
-            </IconButton>
             <StyledMenu
               id="customized-menu"
               anchorEl={anchorEl1}
@@ -338,30 +339,18 @@ export const PrimarySearchAppBar = () => {
             >
               <StyledMenuItem></StyledMenuItem>
             </StyledMenu>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
           </div>
           {isUserAuthenticated() ? (
             <div className={classes.sectionDesktop}>
+              <IconButton
+                aria-label="show"
+                color="inherit"
+                onClick={handleClick}
+              >
+                <Badge badgeContent={numNotif} color="secondary">
+                  <GroupIcon />
+                </Badge>
+              </IconButton>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
