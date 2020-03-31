@@ -6,6 +6,7 @@ import { alert } from "./alert.reducer";
 import { drawer } from "./drawer.reducer";
 import { notification } from "./notification.reducer";
 import { findTeam } from "./team.reducer";
+import { tournaments } from "./tournament.reducer";
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   alert,
   drawer,
   notification,
-  findTeam
+  findTeam,
+  tournaments
 });
 
 export default rootReducer;

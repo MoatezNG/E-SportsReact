@@ -29,10 +29,6 @@ export const InvitesList = () => {
   //     console.log(i);
   //   }
   // }
-
-  useEffect(() => {
-    console.log(notif.length);
-  }, []);
   // const findteamleader = id => {
   //   dispatch(teamActions.getTeamLeader(id));
   // };

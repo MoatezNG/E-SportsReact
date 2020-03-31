@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 
 export const HomePage = () => {
   const open = useSelector(state => state.drawer);
-  const [spacing] = React.useState(2);
+
   const classes = useStyles();
   return (
     <div>
@@ -67,7 +67,7 @@ export const HomePage = () => {
         <div className={classes.contentCenter}>
           <Grid container className={classes.root} spacing={2}>
             <Grid item xs={12}>
-              <Grid container justify="center" spacing={spacing}>
+              <Grid container justify="center" spacing={2}>
                 {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(value => (
                   <Grid key={value} item>
                     <Paper>
