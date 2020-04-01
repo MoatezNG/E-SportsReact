@@ -1,14 +1,12 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Provider } from 'react-redux';
+import React from "react";
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom";
+import { store } from "./_helpers";
+import { App } from "./App";
 
-import { store } from './_helpers';
-import { App } from './App';
-
-
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('app')
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector("#root")
 );

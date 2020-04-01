@@ -172,17 +172,6 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    "&:focus": {
-      backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white
-      }
-    }
-  }
-}))(MenuItem);
-
 export const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -191,7 +180,6 @@ export const PrimarySearchAppBar = () => {
   const theme = useTheme();
   const notif = useSelector(state => state.notification);
   const open = useSelector(state => state.drawer);
-  console.log(open);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -223,7 +211,6 @@ export const PrimarySearchAppBar = () => {
 
   const routeChange = () => {
     let path = `/login`;
-
     history.push(path);
   };
   useEffect(() => {
@@ -313,7 +300,6 @@ export const PrimarySearchAppBar = () => {
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
             Material-UI
-            <InvitesList />
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -337,7 +323,8 @@ export const PrimarySearchAppBar = () => {
               open={Boolean(anchorEl1)}
               onClose={handleClose}
             >
-              <StyledMenuItem></StyledMenuItem>
+              <h2> Invites :</h2>
+              <InvitesList />
             </StyledMenu>
           </div>
           {isUserAuthenticated() ? (
@@ -348,12 +335,12 @@ export const PrimarySearchAppBar = () => {
                 onClick={handleClick}
               >
                 <Badge badgeContent={numNotif} color="secondary">
-                  <GroupIcon />
+                  <GroupIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
+                  <MailIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton
@@ -361,7 +348,7 @@ export const PrimarySearchAppBar = () => {
                 color="inherit"
               >
                 <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
+                  <NotificationsIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton
@@ -372,7 +359,7 @@ export const PrimarySearchAppBar = () => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <AccountCircle fontSize="large" />
               </IconButton>
             </div>
           ) : (
