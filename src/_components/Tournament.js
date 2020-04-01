@@ -1,11 +1,19 @@
 import React from "react";
-import { useSelector } from "react-redux";
+/* import { useSelector } from "react-redux"; */
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
-import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
+/* import { makeStyles } from "@material-ui/core/styles"; */
+import { TournamentList } from "./TournamentList";
+import { useEffect } from "react";
+import { tournamentActions } from "../_actions/tournament.actions";
+import { useSelector, useDispatch } from "react-redux";
 export const Tournament = () => {
-  const drawerWidth = 240;
-  const useStyles = makeStyles(theme => ({
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(tournamentActions.getTournaments());
+  }, [dispatch]);
+
+  /*   const drawerWidth = 240; */
+  /* const useStyles = makeStyles(theme => ({
     drawer: {
       width: drawerWidth,
       flexShrink: 0
@@ -49,31 +57,18 @@ export const Tournament = () => {
     contentCenter: {
       marginLeft: 250
     }
-  }));
-
-  const tournaments = useSelector(state => state.tournaments);
+  })); */
+  /* 
   const open = useSelector(state => state.drawer);
-  const classes = useStyles();
-  console.log(tournaments);
-  return Object.keys(tournaments).map(key => {
-    return (
-      <>
-        <PrimarySearchAppBar />
-        <main
-          className={clsx(classes.content, {
-            [classes.contentShift]: open
-          })}
-        >
-          <div className={classes.contentCenter}>
-            <h1 key={tournaments[key].tournamentName}>
-              {tournaments[key].tournamentName}{" "}
-            </h1>
-            <button></button>
-          </div>
-        </main>
-      </>
-    );
-  });
+  const classes = useStyles(); */
+  /* console.log(tournaments); */
+
+  return (
+    <>
+      <PrimarySearchAppBar />
+      <TournamentList />
+    </>
+  );
 };
 
 export default Tournament;

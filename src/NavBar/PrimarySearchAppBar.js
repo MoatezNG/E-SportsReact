@@ -426,20 +426,16 @@ export const PrimarySearchAppBar = () => {
         </div>
         <Divider />
         <List>
-          <Link
-            to="/tournaments"
-            onClick={() => dispatch(tournamentActions.getTournaments())}
-          >
-            Tournaments
-          </Link>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {["Tournament", "Starred", "Send email", "Drafts"].map(
+            (text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            )
+          )}
         </List>
         <Divider />
         <List>
