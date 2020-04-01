@@ -25,15 +25,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { useSelector, useDispatch } from "react-redux";
 import { drawerAction } from "../_actions";
 import { notificationActions } from "../_actions";
-import { tournamentActions } from "../_actions/tournament.actions";
 import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
+import SendIcon from "@material-ui/icons/Send";
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -211,6 +210,11 @@ export const PrimarySearchAppBar = () => {
 
   const routeChange = () => {
     let path = `/login`;
+    history.push(path);
+  };
+
+  const routeTournaments = () => {
+    let path = `/tournaments`;
     history.push(path);
   };
   useEffect(() => {
@@ -413,31 +417,12 @@ export const PrimarySearchAppBar = () => {
         </div>
         <Divider />
         <List>
-          <Link
-            to="/tournaments"
-            onClick={() => dispatch(tournamentActions.getTournaments())}
-          >
-            Tournaments
-          </Link>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={routeTournaments}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tournaments" />
+          </ListItem>
         </List>
       </Drawer>
       {renderMobileMenu}
