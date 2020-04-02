@@ -33,6 +33,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
 import SendIcon from "@material-ui/icons/Send";
+import Avatar from "@material-ui/core/Avatar";
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -287,6 +288,7 @@ export const PrimarySearchAppBar = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        style={{ background: "#2E3B55" }}
         position="static"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open
@@ -303,7 +305,7 @@ export const PrimarySearchAppBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            E-SPORTS
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -363,7 +365,10 @@ export const PrimarySearchAppBar = () => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle fontSize="large" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://trello-members.s3.amazonaws.com/5c4c619706810d245f95ef7a/ec68aa9261bd15b60bb88b3301bc491e/original.png"
+                />
               </IconButton>
             </div>
           ) : (

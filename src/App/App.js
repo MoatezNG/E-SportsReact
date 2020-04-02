@@ -10,6 +10,7 @@ import { LoginPage } from "../LoginPage";
 import { RegisterPage } from "../RegisterPage";
 import { ProfilePage } from "../ProfilePage";
 import { Tournament } from "../_components/Tournament";
+import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 
 class App extends React.Component {
   constructor(props) {
@@ -32,6 +33,8 @@ class App extends React.Component {
               <div className={`alert ${alert.type}`}>{alert.message}</div>
             )}
             <Router history={history}>
+              <PrimarySearchAppBar />
+
               <div>
                 <Route exact path="/" component={HomePage} />
                 <PrivateRoute exact path="/profile" component={ProfilePage} />

@@ -1,5 +1,4 @@
 import React from "react";
-import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -58,7 +57,6 @@ export const HomePage = () => {
   const classes = useStyles();
   return (
     <div>
-      <PrimarySearchAppBar />
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open

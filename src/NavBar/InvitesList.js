@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -34,7 +33,7 @@ export const InvitesList = () => {
     return (
       <div className={listClasses.posi} key={key.invitingLeader._id}>
         <List className={listClasses.root}>
-          <ListItem alignItems="flex-start">
+          <ListItem alignItems="flex-start" button>
             <ListItemAvatar>
               <Avatar
                 alt="Remy Sharp"
@@ -53,7 +52,6 @@ export const InvitesList = () => {
               <DeleteIcon color="secondary" />
             </IconButton>
           </ListItem>
-          <Divider variant="inset" component="li" />
         </List>
       </div>
     );
