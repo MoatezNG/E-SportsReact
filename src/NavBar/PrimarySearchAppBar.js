@@ -25,15 +25,15 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { useSelector, useDispatch } from "react-redux";
 import { drawerAction } from "../_actions";
 import { notificationActions } from "../_actions";
-import { tournamentActions } from "../_actions/tournament.actions";
 import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
+import SendIcon from "@material-ui/icons/Send";
+import Avatar from "@material-ui/core/Avatar";
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -172,17 +172,6 @@ const StyledMenu = withStyles({
   />
 ));
 
-const StyledMenuItem = withStyles(theme => ({
-  root: {
-    "&:focus": {
-      backgroundColor: theme.palette.primary.main,
-      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-        color: theme.palette.common.white
-      }
-    }
-  }
-}))(MenuItem);
-
 export const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -191,7 +180,6 @@ export const PrimarySearchAppBar = () => {
   const theme = useTheme();
   const notif = useSelector(state => state.notification);
   const open = useSelector(state => state.drawer);
-  console.log(open);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -223,7 +211,11 @@ export const PrimarySearchAppBar = () => {
 
   const routeChange = () => {
     let path = `/login`;
+    history.push(path);
+  };
 
+  const routeTournaments = () => {
+    let path = `/tournaments`;
     history.push(path);
   };
   useEffect(() => {
@@ -296,6 +288,7 @@ export const PrimarySearchAppBar = () => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        style={{ background: "#2E3B55" }}
         position="static"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open
@@ -312,8 +305,7 @@ export const PrimarySearchAppBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
-            <InvitesList />
+            E-SPORTS
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -337,7 +329,8 @@ export const PrimarySearchAppBar = () => {
               open={Boolean(anchorEl1)}
               onClose={handleClose}
             >
-              <StyledMenuItem></StyledMenuItem>
+              <h2> Invites :</h2>
+              <InvitesList />
             </StyledMenu>
           </div>
           {isUserAuthenticated() ? (
@@ -348,12 +341,12 @@ export const PrimarySearchAppBar = () => {
                 onClick={handleClick}
               >
                 <Badge badgeContent={numNotif} color="secondary">
-                  <GroupIcon />
+                  <GroupIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
+                  <MailIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton
@@ -361,7 +354,7 @@ export const PrimarySearchAppBar = () => {
                 color="inherit"
               >
                 <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
+                  <NotificationsIcon fontSize="large" />
                 </Badge>
               </IconButton>
               <IconButton
@@ -372,7 +365,10 @@ export const PrimarySearchAppBar = () => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <Avatar
+                  alt="Remy Sharp"
+                  src="https://trello-members.s3.amazonaws.com/5c4c619706810d245f95ef7a/ec68aa9261bd15b60bb88b3301bc491e/original.png"
+                />
               </IconButton>
             </div>
           ) : (
@@ -426,27 +422,12 @@ export const PrimarySearchAppBar = () => {
         </div>
         <Divider />
         <List>
-          {["Tournament", "Starred", "Send email", "Drafts"].map(
-            (text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button onClick={routeTournaments}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Tournaments" />
+          </ListItem>
         </List>
       </Drawer>
       {renderMobileMenu}

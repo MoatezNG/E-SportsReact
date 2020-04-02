@@ -1,12 +1,11 @@
 import React from "react";
-import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -48,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0
   },
   contentCenter: {
-    marginLeft: 200
+    marginLeft: 250
   }
 }));
 
@@ -58,7 +57,6 @@ export const HomePage = () => {
   const classes = useStyles();
   return (
     <div>
-      <PrimarySearchAppBar />
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open

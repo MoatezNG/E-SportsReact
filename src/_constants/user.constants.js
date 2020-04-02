@@ -18,6 +18,9 @@ export const notifConstants = {
 export const tourConstants = {
   TOUR_SUCCESS: "USER_TOURNAMENT_LIST"
 };
+export const oneTourConstants = {
+  ONE_TOUR_SUCCESS: "ONE_TOURNAMENT_OBJECT"
+};
 export const teamConstants = {
   FINDTEAM_REQUEST: "FINDTEAM_REQUEST",
   FINDTEAM_SUCCESS: "FINDTEAM_SUCCESS",

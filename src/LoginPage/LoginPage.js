@@ -1,7 +1,7 @@
 // import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../_actions";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const LoginPage = () => {
   const loggingIn = useSelector(state => state.authentication);
@@ -19,6 +19,10 @@ export const LoginPage = () => {
       dispatch(userActions.login(username, password));
     }
   };
+
+  useEffect(() => {
+    dispatch(userActions.logout());
+  }, [dispatch]);
 
   return (
     <div className="col-md-6 col-md-offset-3">
