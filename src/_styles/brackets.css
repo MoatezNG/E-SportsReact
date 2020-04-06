@@ -1,0 +1,121 @@
+.col-1-8 {
+  width: 17.5%;
+  float: left;
+}
+.round-two-top {
+  padding: 45px 0 0;
+}
+.round-two-bottom {
+  padding: 80px 0 0;
+}
+.round-three {
+  padding: 60px 0 0;
+}
+
+ul.matchup {
+  margin: 0;
+  width: 100%;
+  padding: 3px;
+}
+ul.matchup1 {
+  margin: 0;
+  width: 100%;
+  padding: 3px;
+}
+ul.matchup li {
+  padding: 0;
+  margin: 3px 5px;
+  height: 25px;
+  line-height: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgb(46, 59, 85);
+  font-size: 22px;
+  animation: example 5s linear infinite alternate;
+  background-color: white;
+  /* animation: burn 1.5s linear infinite alternate; */
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  /*  background-color: #2e8b57;
+
+  animation-name: example;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate; */
+}
+ul.matchup1 li {
+  padding: 0;
+  margin: 3px 5px;
+  height: 25px;
+  line-height: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgb(46, 59, 85);
+  font-size: 22px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+.seed {
+  background: rgb(46, 59, 85);
+  padding: 5px 10px;
+  color: white;
+  font-size: 25px;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+@media screen and (min-width: 401px) and (max-width: 680px) {
+  .col-1-8 {
+    width: 10%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .col-1-8 {
+    width: 33%;
+  }
+  .champ {
+    width: 100%;
+  }
+}
+.marginbottom {
+  margin-bottom: 50px;
+}
+@keyframes example {
+  0% {
+    background-color: white;
+    left: 0px;
+    top: 0px;
+  }
+  100% {
+    background-color: rgb(196, 233, 217);
+    left: 0px;
+    top: 0px;
+  }
+}
+/* @keyframes burn {
+  from {
+    box-shadow: -0.1em 0 0.3em #fefcc9, 0.1em -0.1em 0.3em #feec85,
+      -0.2em -0.2em 0.4em #ffae34, 0.2em -0.3em 0.3em #ec760c,
+      -0.2em -0.4em 0.4em #cd4606, 0.1em -0.5em 0.7em #973716,
+      0.1em -0.7em 0.7em #451b0e;
+  }
+  45% {
+    box-shadow: 0.1em -0.2em 0.5em #fefcc9, 0.15em 0 0.4em #feec85,
+      -0.1em -0.25em 0.5em #ffae34, 0.15em -0.45em 0.5em #ec760c,
+      -0.1em -0.5em 0.6em #cd4606, 0 -0.8em 0.6em #973716,
+      0.2em -1em 0.8em #451b0e;
+  }
+  70% {
+    box-shadow: -0.1em 0 0.3em #fefcc9, 0.1em -0.1em 0.3em #feec85,
+      -0.2em -0.2em 0.6em #ffae34, 0.2em -0.3em 0.4em #ec760c,
+      -0.2em -0.4em 0.7em #cd4606, 0.1em -0.5em 0.7em #973716,
+      0.1em -0.7em 0.9em #451b0e;
+  }
+  to {
+    box-shadow: -0.1em -0.2em 0.6em #fefcc9, -0.15em 0 0.6em #feec85,
+      0.1em -0.25em 0.6em #ffae34, -0.15em -0.45em 0.5em #ec760c,
+      0.1em -0.5em 0.6em #cd4606, 0 -0.8em 0.6em #973716,
+      -0.2em -1em 0.8em #451b0e;
+  }} */
