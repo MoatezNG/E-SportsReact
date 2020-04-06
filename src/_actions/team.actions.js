@@ -3,7 +3,8 @@ import { teamConstants } from "../_constants";
 import { alertActions } from "./";
 
 export const teamActions = {
-  getTeamLeader
+  getTeamLeader,
+  getAllteams
 };
 
 function getTeamLeader(userId) {
@@ -20,12 +21,22 @@ function getTeamLeader(userId) {
     );
   };
 }
+function getAllteams() {
+  return dispatch => {
+    teamService.getAllteams().then(teams => {
+      dispatch(successteams(teams));
+    });
+  };
+}
+function successteams(teams) {
+  return { type: teamConstants.TEAMS_SUCCESS, teams };
+}
 
 function request() {
   return { type: teamConstants.FINDTEAM_REQUEST };
 }
-function success(findTeam) {
-  return { type: teamConstants.FINDTEAM_SUCCESS, findTeam };
+function success(teams) {
+  return { type: teamConstants.FINDTEAM_SUCCESS, teams };
 }
 function failure(error) {
   return { type: teamConstants.FINDTEAM_FAILURE, error };

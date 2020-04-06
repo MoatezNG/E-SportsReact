@@ -20,9 +20,7 @@ export const LoginPage = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(userActions.logout());
-  }, [dispatch]);
+  useEffect(() => {}, []);
 
   return (
     <div className="col-md-6 col-md-offset-3">

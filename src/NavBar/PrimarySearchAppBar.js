@@ -34,7 +34,8 @@ import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
 import SendIcon from "@material-ui/icons/Send";
 import Avatar from "@material-ui/core/Avatar";
-
+import ClearAllIcon from "@material-ui/icons/ClearAll";
+import { userActions } from "../_actions";
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
 
@@ -150,6 +151,11 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  ListPos: {
+    marginLeft: 20,
+    display: "flex",
+    width: "100%"
   }
 }));
 const StyledMenu = withStyles({
@@ -212,6 +218,12 @@ export const PrimarySearchAppBar = () => {
   const routeChange = () => {
     let path = `/login`;
     history.push(path);
+    dispatch(userActions.logout());
+  };
+
+  const routeTeams = () => {
+    let path = `/teams`;
+    history.push(path);
   };
 
   const routeTournaments = () => {
@@ -238,7 +250,7 @@ export const PrimarySearchAppBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={routeChange}>Logout</MenuItem>
+      <MenuItem onClick={() => routeChange()}>Logout</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -321,20 +333,23 @@ export const PrimarySearchAppBar = () => {
             />
           </div>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <StyledMenu
-              id="customized-menu"
-              anchorEl={anchorEl1}
-              keepMounted
-              open={Boolean(anchorEl1)}
-              onClose={handleClose}
-            >
-              <h2> Invites :</h2>
-              <InvitesList />
-            </StyledMenu>
-          </div>
+          <div className={classes.sectionDesktop}></div>
           {isUserAuthenticated() ? (
             <div className={classes.sectionDesktop}>
+              <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl1}
+                keepMounted
+                open={Boolean(anchorEl1)}
+                onClose={handleClose}
+              >
+                <div className={classes.ListPos}>
+                  <h1> Invites </h1>
+
+                  <ClearAllIcon />
+                </div>
+                <InvitesList />
+              </StyledMenu>
               <IconButton
                 aria-label="show"
                 color="inherit"
@@ -427,6 +442,12 @@ export const PrimarySearchAppBar = () => {
               <SendIcon />
             </ListItemIcon>
             <ListItemText primary="Tournaments" />
+          </ListItem>
+          <ListItem button onClick={routeTeams}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Teams" />
           </ListItem>
         </List>
       </Drawer>

@@ -12,3 +12,11 @@ export const findTeam = (state = {}, action) => {
       return state;
   }
 };
+export const teams = (state = [], action) => {
+  switch (action.type) {
+    case teamConstants.TEAMS_SUCCESS:
+      return action.teams;
+    default:
+      return state;
+  }
+};

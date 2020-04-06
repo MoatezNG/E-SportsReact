@@ -5,20 +5,19 @@ import React, { useState } from "react";
 
 export const RegisterPage = () => {
   const loggingIn = useSelector(state => state.authentication);
-  console.log(loggingIn);
   const dispatch = useDispatch();
 
   const [submitted, setSubmitted] = useState();
   const [name, setName] = useState("");
-  const [summonerName, setSummonerName] = useState("");
+  const [sumonnerName, setSummonerName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
     setSubmitted(true);
-    if (name && email && summonerName && password) {
-      dispatch(userActions.register({ name, email, summonerName, password }));
+    if (name && email && sumonnerName && password) {
+      dispatch(userActions.register({ name, email, sumonnerName, password }));
     }
   };
 
@@ -87,7 +86,7 @@ export const RegisterPage = () => {
                  */}
         <div
           className={
-            "form-group" + (submitted && !summonerName ? " has-error" : "")
+            "form-group" + (submitted && !sumonnerName ? " has-error" : "")
           }
         >
           <label htmlFor="password">Summoner name</label>
@@ -95,10 +94,10 @@ export const RegisterPage = () => {
             type="text"
             className="form-control"
             name="summonerName"
-            value={summonerName}
+            value={sumonnerName}
             onChange={e => setSummonerName(e.target.value)}
           />
-          {submitted && !summonerName && (
+          {submitted && !sumonnerName && (
             <div className="help-block">Summoner name is required</div>
           )}
         </div>

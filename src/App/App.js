@@ -10,6 +10,8 @@ import { LoginPage } from "../LoginPage";
 import { RegisterPage } from "../RegisterPage";
 import { ProfilePage } from "../ProfilePage";
 import { Tournament } from "../_components/Tournament";
+import { Team } from "../_components/Team";
+import { Match } from "../_components/Match/Match";
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 
 class App extends React.Component {
@@ -41,6 +43,8 @@ class App extends React.Component {
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/tournaments" component={Tournament} />
+                <Route path="/teams" component={Team} />
+                <Route path="/matchs" component={Match} />
               </div>
             </Router>
           </div>

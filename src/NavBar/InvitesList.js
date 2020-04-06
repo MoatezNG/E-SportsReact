@@ -5,11 +5,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core/styles";
-
-import DeleteIcon from "@material-ui/icons/Delete";
+import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import SendIcon from "@material-ui/icons/Send";
 
 const listStyle = makeStyles(theme => ({
   root: {
@@ -18,10 +17,7 @@ const listStyle = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper
   },
 
-  posi: {
-    marginTop: -15,
-    marginLeft: -16
-  },
+  posi: {},
   button: {
     margin: theme.spacing(1)
   }
@@ -46,10 +42,10 @@ export const InvitesList = () => {
               secondary="Has challenged you to a friendly match!"
             />
             <IconButton aria-label="delete">
-              <SendIcon color="primary" />
+              <CheckCircleIcon fontSize="large" color="primary" />
             </IconButton>
             <IconButton aria-label="delete">
-              <DeleteIcon color="secondary" />
+              <CloseIcon fontSize="large" color="secondary" />
             </IconButton>
           </ListItem>
         </List>
