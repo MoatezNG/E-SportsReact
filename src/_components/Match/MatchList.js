@@ -65,6 +65,17 @@ const useStylesList = makeStyles((theme) => ({
     marginLeft: 110,
     marginTop: -370,
   },
+  statsBlue: {
+    marginLeft: 200,
+    marginTop: -362,
+  },
+  statsRed: {
+    marginLeft: -100,
+    marginTop: -362,
+  },
+  eachStatsBlue: {
+    marginTop: 55,
+  },
   membersred: {
     marginLeft: -60,
     marginTop: -370,
@@ -243,14 +254,16 @@ const MatchList = () => {
                           {partblue.team.teamLeader.name}
                         </div>
                       </div>
-                      {/* {partblue.part.map((element) => {
-                        return (
-                          <div>
-                            {element.stats.kills}/{element.stats.deaths}/
-                            {element.stats.assists}
-                          </div>
-                        );
-                      })} */}
+                      <div className={classesList.statsBlue}>
+                        {partblue.part.map((element) => {
+                          return (
+                            <div className={classesList.eachStatsBlue}>
+                              {element.stats.kills}/{element.stats.deaths}/
+                              {element.stats.assists}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}
@@ -291,6 +304,16 @@ const MatchList = () => {
                         })}
                         <div className={classesList.m}>
                           {partRed.team.teamLeader.name}
+                        </div>
+                        <div className={classesList.statsRed}>
+                          {partRed.part.map((element) => {
+                            return (
+                              <div className={classesList.eachStatsBlue}>
+                                {element.stats.kills}/{element.stats.deaths}/
+                                {element.stats.assists}
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
