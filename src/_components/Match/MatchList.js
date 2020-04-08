@@ -243,6 +243,14 @@ const MatchList = () => {
                           {partblue.team.teamLeader.name}
                         </div>
                       </div>
+                      {/* {partblue.part.map((element) => {
+                        return (
+                          <div>
+                            {element.stats.kills}/{element.stats.deaths}/
+                            {element.stats.assists}
+                          </div>
+                        );
+                      })} */}
                     </div>
                   );
                 })}
