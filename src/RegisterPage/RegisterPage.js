@@ -5,20 +5,28 @@ import React, { useState } from "react";
 
 export const RegisterPage = () => {
   const loggingIn = useSelector(state => state.authentication);
-  console.log(loggingIn);
   const dispatch = useDispatch();
 
   const [submitted, setSubmitted] = useState();
   const [name, setName] = useState("");
-  const [summonerName, setSummonerName] = useState("");
+  const [sumonnerName, setSumonnerName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userImage, setUserImage] = useState();
 
   const handleSubmit = e => {
     e.preventDefault();
+    const payload = {
+      name,
+      sumonnerName,
+      email,
+      password,
+      userImage,
+    }
+
     setSubmitted(true);
-    if (name && email && summonerName && password) {
-      dispatch(userActions.register({ name, email, summonerName, password }));
+    if (name && email && sumonnerName && password && userImage) {
+      dispatch(userActions.register(payload));
     }
   };
 
@@ -26,6 +34,24 @@ export const RegisterPage = () => {
     <div className="col-md-6 col-md-offset-3">
       <h2>Register</h2>
       <form name="form" onSubmit={handleSubmit}>
+        {/* 
+                Profile picture
+                 */}
+        <div
+          className={"form-group" + (submitted && !name ? " has-error" : "")}
+        >
+          <label htmlFor="username">Name</label>
+          <input
+            type="file"
+            className="form-control"
+            name="image"
+            onChange={e => setUserImage(e.target.files[0])}
+          />
+          {submitted && !name && (
+            <div className="help-block">name is required</div>
+          )}
+        </div>
+
         {/* 
                 Name
                  */}
@@ -87,18 +113,18 @@ export const RegisterPage = () => {
                  */}
         <div
           className={
-            "form-group" + (submitted && !summonerName ? " has-error" : "")
+            "form-group" + (submitted && !sumonnerName ? " has-error" : "")
           }
         >
           <label htmlFor="password">Summoner name</label>
           <input
             type="text"
             className="form-control"
-            name="summonerName"
-            value={summonerName}
-            onChange={e => setSummonerName(e.target.value)}
+            name="sumonnerName"
+            value={sumonnerName}
+            onChange={e => setSumonnerName(e.target.value)}
           />
-          {submitted && !summonerName && (
+          {submitted && !sumonnerName && (
             <div className="help-block">Summoner name is required</div>
           )}
         </div>

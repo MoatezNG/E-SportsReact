@@ -1,5 +1,6 @@
 
 import { authHeader } from '../_helpers';
+import axios from 'axios'
 
 function handleResponse(response) {
     return response.text().then(text => {
@@ -60,14 +61,39 @@ function getAll() {
 }
 
 function register(user) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user)
-    }
+    const formData = new FormData()
+    Object.entries(user).forEach(obj => {
+        const [key, value] = obj
+        formData.append(key, value)
+    })
 
-    return fetch('http://localhost:3001/users/aa', requestOptions)
-        .then(handleResponse)
+    // form-data bugs when using fetch
+    return axios.post('http://localhost:3001/users/aa', formData)
+        //.then(handleResponse)
+        .then(user => {
+            if (user.token) {
+                // store user details and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+
+            return user;
+        })
+}
+
+function updateUser(user) {
+    const formData = new FormData()
+    Object.entries(user).forEach(obj => {
+        const [key, value] = obj
+        formData.append(key, value)
+    })
+    const headers = {
+        headers: {
+            'Authorization': authHeader().Authorization
+        }
+    }
+    // form-data bugs when using fetch
+    return axios.put('http://localhost:3001/users/me/updateprofile', formData, headers)
+        //.then(handleResponse)
         .then(user => {
             if (user.token) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -84,5 +110,6 @@ export const userService = {
     login,
     logout,
     getAll,
-    register
+    register,
+    updateUser
 };

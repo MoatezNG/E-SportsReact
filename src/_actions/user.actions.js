@@ -59,7 +59,6 @@ function getAll() {
 }
 
 function register(user) {
-
   function request() {
     return { type: userConstants.REGISTER_REQUEST };
   }
@@ -85,9 +84,35 @@ function register(user) {
   }
 }
 
+function updateUser(user) {
+  function request() {
+    return { type: userConstants.UPDATE_REQUEST };
+  }
+  function success(user) {
+    return { type: userConstants.UPDATE_SUCCESS, user };
+  }
+  function failure(error) {
+    return { type: userConstants.UPDATE_FAILURE, error };
+  }
+
+  return dispatch => {
+    dispatch(request())
+
+    userService
+      .updateUser(user)
+      .then(response => {
+        dispatch(success(response))
+      })
+      .catch(error => {
+        dispatch(failure(error))
+      })
+  }
+}
+
 export const userActions = {
   login,
   logout,
   getAll,
-  register
+  register,
+  updateUser
 };

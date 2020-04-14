@@ -1,6 +1,9 @@
 import { userConstants } from "../_constants";
 
-const initialState = {};
+const user = JSON.parse(window.localStorage.getItem('user'))
+const initialState = {
+  user: user ? user.user : {}
+}
 
 export function authentication(state = initialState, action) {
   switch (action.type) {
