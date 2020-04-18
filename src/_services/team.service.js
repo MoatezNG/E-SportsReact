@@ -2,7 +2,7 @@ const axios = require("axios");
 
 export const teamService = {
   getTeamByTeamLeader,
-  getAllteams
+  getAllteams,
 };
 
 async function getTeamByTeamLeader(userId) {

@@ -1,19 +1,21 @@
 import { notificationService } from "../_services";
-import { notifConstants } from "../_constants";
+import { notifConstants, challengeConstants } from "../_constants";
 import { alertActions } from "./";
+import { history } from "../_helpers";
 
 export const notificationActions = {
-  getNotification
+  getNotification,
+  challengeTeam,
 };
 
 function getNotification(userId) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(request());
     notificationService.getNotification(userId).then(
-      notification => {
+      (notification) => {
         dispatch(success(notification));
       },
-      error => {
+      (error) => {
         dispatch(failure(error));
         dispatch(alertActions.error(error));
       }
@@ -29,4 +31,29 @@ function success(notification) {
 }
 function failure(error) {
   return { type: notifConstants.NOTIF_FAILURE, error };
+}
+
+function challengeTeam(invitingL, recevingL, DateGame) {
+  return (dispatch) => {
+    dispatch(request());
+    notificationService.challengeTeam(invitingL, recevingL, DateGame).then(
+      (notificationRequest) => {
+        dispatch(success(notificationRequest));
+      },
+      (error) => {
+        dispatch(failure(error));
+      }
+    );
+  };
+
+  function request() {
+    return { type: challengeConstants.CHALLENGE_REQUEST };
+  }
+  function success(notificationRequest) {
+    return { type: challengeConstants.CHALLENGE_SUCCESS, notificationRequest };
+  }
+
+  function failure(error) {
+    return { type: challengeConstants.CHALLENGE_FAILURE, error };
+  }
 }

@@ -57,7 +57,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   const { alert } = state;
   return {
-    alert
+    alert,
   };
 }
 

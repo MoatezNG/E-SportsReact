@@ -5,7 +5,6 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
-import Button from "@material-ui/core/Button";
 
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
@@ -67,17 +66,34 @@ const useStylesList = makeStyles((theme) => ({
   },
   statsBlue: {
     marginLeft: 200,
-    marginTop: -362,
+    marginTop: -355,
+  },
+  itemsBlue: {
+    marginLeft: 270,
+    marginTop: -355,
+    width: 200,
+  },
+  itemsRed: {
+    marginLeft: -365,
+    marginTop: -355,
+    width: 200,
+  },
+  champsred: {
+    marginLeft: -100,
+    marginTop: 11,
   },
   statsRed: {
     marginLeft: -100,
-    marginTop: -362,
+    marginTop: -355,
   },
   eachStatsBlue: {
-    marginTop: 55,
+    marginTop: 38,
+  },
+  eachStatsBlue: {
+    marginTop: 38,
   },
   membersred: {
-    marginLeft: -60,
+    marginLeft: -270,
     marginTop: -370,
   },
   m: {
@@ -85,6 +101,9 @@ const useStylesList = makeStyles((theme) => ({
   },
   eachspell: {
     marginTop: 40,
+  },
+  eachitems: {
+    marginTop: 30,
   },
   spells: {
     marginTop: -380,
@@ -99,7 +118,7 @@ const useStylesList = makeStyles((theme) => ({
     marginTop: -3,
   },
   teamname: {
-    marginLeft: -20,
+    marginLeft: -10,
   },
   redteamname: {
     marginLeft: -200,
@@ -118,8 +137,12 @@ const MatchList = () => {
     "http://ddragon.leagueoflegends.com/cdn/10.7.1/img/champion/";
   const ddragonSpellurl =
     "http://ddragon.leagueoflegends.com/cdn/10.7.1/img/spell/";
+  const ddragonItemurl =
+    "http://ddragon.leagueoflegends.com/cdn/10.7.1/img/item/";
+
   const [champions, setChampions] = useState([]);
   const [spells, setSpells] = useState([]);
+  const [items, setItems] = useState([]);
   const matchs = useSelector((state) => state.matchs);
   const classesList = useStylesList();
 
@@ -136,6 +159,18 @@ const MatchList = () => {
     }
   }
 
+  async function getItems() {
+    try {
+      let response = await fetch(
+        "http://ddragon.leagueoflegends.com/cdn/10.7.1/data/en_US/item.json"
+      );
+      let responseJson = await response.json();
+      setItems(Object.values(responseJson.data));
+      return responseJson.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
   async function getSpells() {
     try {
       let response = await fetch(
@@ -182,10 +217,28 @@ const MatchList = () => {
       }
     });
   }
-  console.log(spells);
+  function getItemImage(itemid) {
+    return items.map((key, i) => {
+      if (itemid === i) {
+        return (
+          <div key={key.key}>
+            <Avatar
+              variant="square"
+              alt="Remy Sharp"
+              src={ddragonItemurl + key.image.full}
+            />
+          </div>
+        );
+      } else {
+        return null;
+      }
+    });
+  }
+
   useEffect(() => {
     getChampions();
     getSpells();
+    getItems();
   }, []);
 
   return matchs.map((key) => {
@@ -214,7 +267,7 @@ const MatchList = () => {
                 src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
               />
               <div className={classesList.margduration}>
-                <h3>{_.round(key.gameDuration / 60, 0)} mins</h3>
+                <h3>{_.round(key.gameDuration / 1000, 0)} seconds</h3>
               </div>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classesList.column}>
@@ -257,9 +310,40 @@ const MatchList = () => {
                       <div className={classesList.statsBlue}>
                         {partblue.part.map((element) => {
                           return (
-                            <div className={classesList.eachStatsBlue}>
-                              {element.stats.kills}/{element.stats.deaths}/
-                              {element.stats.assists}
+                            <>
+                              <div className={classesList.eachStatsBlue}>
+                                {element.stats.kills}/{element.stats.deaths}/
+                                {element.stats.assists}
+                              </div>
+                              <div>Level :{element.stats.champLevel}</div>
+                            </>
+                          );
+                        })}
+                      </div>
+                      <div className={classesList.itemsBlue}>
+                        {partblue.part.map((element) => {
+                          return (
+                            <div className={classesList.eachitems}>
+                              <div className="row">
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item1)}
+                                </div>
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item2)}
+                                </div>
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item3)}
+                                </div>
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item4)}
+                                </div>
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item5)}
+                                </div>
+                                <div className="col col-lg-2">
+                                  {getItemImage(element.stats.item6)}
+                                </div>
+                              </div>
                             </div>
                           );
                         })}
@@ -271,15 +355,15 @@ const MatchList = () => {
               <div key={key.gameDuration} className={classesList.teaml}>
                 {key.participentsRed.map((partRed) => {
                   return (
-                    <div key={partRed._id} className={classesList.column}>
+                    <div key={partRed._id}>
                       <div
                         key={partRed.team.name}
-                        className={classesList.parti}
+                        className={classesList.champsred}
                       >
                         <div className={classesList.redteamname}>
                           <h3>{partRed.team.teamName}</h3>
                         </div>
-                        <p></p>
+
                         {partRed.part.map((p) => {
                           return getChampion(p.championId);
                         })}
@@ -308,9 +392,40 @@ const MatchList = () => {
                         <div className={classesList.statsRed}>
                           {partRed.part.map((element) => {
                             return (
-                              <div className={classesList.eachStatsBlue}>
-                                {element.stats.kills}/{element.stats.deaths}/
-                                {element.stats.assists}
+                              <>
+                                <div className={classesList.eachStatsBlue}>
+                                  {element.stats.kills}/{element.stats.deaths}/
+                                  {element.stats.assists}
+                                  <div>Level :{element.stats.champLevel}</div>
+                                </div>
+                              </>
+                            );
+                          })}
+                        </div>
+                        <div className={classesList.itemsRed}>
+                          {partRed.part.map((element) => {
+                            return (
+                              <div className={classesList.eachitems}>
+                                <div className="row">
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item1)}
+                                  </div>
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item2)}
+                                  </div>
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item3)}
+                                  </div>
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item4)}
+                                  </div>
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item5)}
+                                  </div>
+                                  <div className="col col-lg-2">
+                                    {getItemImage(element.stats.item6)}
+                                  </div>
+                                </div>
                               </div>
                             );
                           })}
@@ -332,9 +447,7 @@ const MatchList = () => {
               </div>
             </ExpansionPanelDetails>
 
-            <ExpansionPanelActions>
-              <p>..</p>
-            </ExpansionPanelActions>
+            <ExpansionPanelActions></ExpansionPanelActions>
           </ExpansionPanel>
         </div>
       </div>

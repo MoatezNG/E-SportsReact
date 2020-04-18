@@ -9,6 +9,7 @@ import { findTeam } from "./team.reducer";
 import { teams } from "./team.reducer";
 import { tournaments } from "./tournament.reducer";
 import { matchs } from "./match.reducer";
+import { notificationRequest } from "./notification.reducer";
 
 const rootReducer = combineReducers({
   authentication,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   findTeam,
   tournaments,
   teams,
-  matchs
+  matchs,
+  notificationRequest,
 });
 
 export default rootReducer;
