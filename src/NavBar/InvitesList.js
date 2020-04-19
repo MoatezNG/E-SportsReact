@@ -1,15 +1,17 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { makeStyles } from "@material-ui/core/styles";
-import CloseIcon from "@material-ui/icons/Close";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
+import EmojiFlagsIcon from "@material-ui/icons/EmojiFlags";
 import IconButton from "@material-ui/core/IconButton";
+import { notificationActions } from "../_actions";
 
 const listStyle = makeStyles((theme) => ({
   root: {
@@ -26,7 +28,10 @@ const listStyle = makeStyles((theme) => ({
 
 export const InvitesList = () => {
   const listClasses = listStyle();
+  const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification);
+  const parsedUser = JSON.parse(localStorage.getItem("user"));
+
   return notification.map((key) => {
     return (
       <div className={listClasses.posi} key={key.invitingLeader._id}>
@@ -43,11 +48,22 @@ export const InvitesList = () => {
               primary={key.invitingLeader.teamOwned.teamName}
               secondary="Has challenged you to a friendly match!"
             />
-            <IconButton aria-label="delete">
-              <CheckCircleIcon fontSize="large" color="primary" />
+            <IconButton
+              aria-label="delete"
+              onClick={() =>
+                dispatch(
+                  notificationActions.acceptChallenge(
+                    key._id,
+                    key.invitingLeader._id,
+                    parsedUser.user._id
+                  )
+                )
+              }
+            >
+              <SportsEsportsIcon fontSize="large" color="primary" />
             </IconButton>
             <IconButton aria-label="delete">
-              <CloseIcon fontSize="large" color="secondary" />
+              <EmojiFlagsIcon fontSize="large" color="secondary" />
             </IconButton>
           </ListItem>
         </List>

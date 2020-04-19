@@ -5,6 +5,7 @@ import { alertActions } from "./";
 export const notificationActions = {
   getNotification,
   challengeTeam,
+  acceptChallenge,
 };
 
 function getNotification(userId) {
@@ -36,6 +37,30 @@ function challengeTeam(invitingL, recevingL, DateGame) {
   return (dispatch) => {
     dispatch(request());
     notificationService.challengeTeam(invitingL, recevingL, DateGame).then(
+      (notificationRequest) => {
+        dispatch(success(notificationRequest));
+      },
+      (error) => {
+        dispatch(failure(error));
+      }
+    );
+  };
+
+  function request() {
+    return { type: challengeConstants.CHALLENGE_REQUEST };
+  }
+  function success(notificationRequest) {
+    return { type: challengeConstants.CHALLENGE_SUCCESS, notificationRequest };
+  }
+
+  function failure(error) {
+    return { type: challengeConstants.CHALLENGE_FAILURE, error };
+  }
+}
+function acceptChallenge(notifId, invitingL, recevingL) {
+  return (dispatch) => {
+    dispatch(request());
+    notificationService.acceptChallenge(notifId, invitingL, recevingL).then(
       (notificationRequest) => {
         dispatch(success(notificationRequest));
       },

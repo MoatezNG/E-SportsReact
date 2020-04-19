@@ -3,6 +3,7 @@ const axios = require("axios");
 export const notificationService = {
   getNotification,
   challengeTeam,
+  acceptChallenge,
 };
 
 async function getNotification(userId) {
@@ -15,6 +16,20 @@ async function getNotification(userId) {
   return "";
 }
 
+async function acceptChallenge(notifId, invitingL, recevingL) {
+  let response = await axios.patch(
+    "http://localhost:3001/notification/accept/" +
+      notifId +
+      "/" +
+      invitingL +
+      "/" +
+      recevingL
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return "";
+}
 function challengeTeam(invitingL, recevingL, DateGame) {
   const requestOptions = {
     method: "POST",
@@ -34,6 +49,7 @@ function challengeTeam(invitingL, recevingL, DateGame) {
       return notif;
     });
 }
+
 function handleResponse(response) {
   return response.text().then((text) => {
     const data = text && JSON.parse(text);
