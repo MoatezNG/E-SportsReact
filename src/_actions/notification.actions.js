@@ -1,7 +1,6 @@
 import { notificationService } from "../_services";
 import { notifConstants, challengeConstants } from "../_constants";
 import { alertActions } from "./";
-import { history } from "../_helpers";
 
 export const notificationActions = {
   getNotification,

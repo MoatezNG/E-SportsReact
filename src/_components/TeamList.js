@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
@@ -15,17 +15,16 @@ import Button from "@material-ui/core/Button";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
-import Menu from "@material-ui/core/Menu";
+
 import DateFnsUtils from "@date-io/date-fns";
-import { withStyles } from "@material-ui/core/styles";
+
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { notificationActions } from "../_actions";
 import Alert from "@material-ui/lab/Alert";
 import IconButton from "@material-ui/core/IconButton";
 import Collapse from "@material-ui/core/Collapse";
-import SendIcon from "@material-ui/icons/Send";
 
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import EmojiFlagsIcon from "@material-ui/icons/EmojiFlags";
 
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -78,42 +77,29 @@ const useStylesList = makeStyles((theme) => ({
     marginLeft: 50,
   },
 }));
-const StyledMenu = withStyles({
-  paper: {
-    border: "1px solid #d3d4d5",
-  },
-})((props) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: "top",
-      horizontal: "center",
-    }}
-    transformOrigin={{
-      vertical: "top",
-      horizontal: "center",
-    }}
-    {...props}
-  />
-));
+
 export const TeamList = () => {
   const classesList = useStylesList();
   const teams = useSelector((state) => state.teams);
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [selectedDate, handleDateChange] = React.useState(new Date());
   const dispatch = useDispatch();
   const parsedUser = JSON.parse(localStorage.getItem("user"));
 
-  const handleCloseChallenge = () => {
-    setAnchorEl(null);
+  const [isOpened, setIsOpened] = React.useState(true);
+  const [shownDate, setShownDate] = React.useState({});
+  const toggle = (id) => {
+    setIsOpened((prevShownChallenge) => ({
+      ...prevShownChallenge,
+      [id]: !prevShownChallenge[id],
+    }));
   };
-  const [isOpened, setIsOpened] = React.useState(false);
-
-  function toggle() {
-    setIsOpened((wasOpened) => !wasOpened);
-  }
+  const toggleDate = (id) => {
+    setShownDate((prevShownDate) => ({
+      ...prevShownDate,
+      [id]: !prevShownDate[id],
+    }));
+  };
   //
   return (
     <div>
@@ -159,16 +145,80 @@ export const TeamList = () => {
                     </div>
                   </div>
 
-                  <div>
+                  {!isOpened[key._id] && (
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={toggle}
+                      onClick={(event) => {
+                        toggleDate(key._id);
+                        toggle(key._id);
+                        event.stopPropagation();
+                      }}
                       disabled={parsedUser.user._id === key.teamLeader._id}
                     >
                       <SportsEsportsIcon></SportsEsportsIcon>
                       Challenge !
                     </Button>
+                  )}
+                  <div>
+                    <div>
+                      {shownDate[key._id] && (
+                        <div>
+                          <div className={classesList.divdate}>
+                            <p
+                              style={{
+                                color: "#2E3B55",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Set your game date here
+                            </p>
+                          </div>
+                          <Button onClick={(event) => event.stopPropagation()}>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                              <DateTimePicker
+                                label="Game date"
+                                inputVariant="outlined"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                              />
+                            </MuiPickersUtilsProvider>
+                          </Button>
+                          <Button
+                            onClick={(event) => {
+                              dispatch(
+                                notificationActions.challengeTeam(
+                                  parsedUser.user._id,
+                                  key.teamLeader._id,
+                                  selectedDate
+                                )
+                              );
+
+                              setOpen(true);
+
+                              event.stopPropagation();
+                            }}
+                          >
+                            <SportsEsportsIcon
+                              fontSize="large"
+                              style={{ color: "#2E3B55" }}
+                            ></SportsEsportsIcon>
+                          </Button>
+                          <Button
+                            onClick={(event) => {
+                              toggle(key._id);
+                              toggleDate(key._id);
+                              event.stopPropagation();
+                            }}
+                          >
+                            <EmojiFlagsIcon
+                              fontSize="large"
+                              style={{ color: "#2E3B55" }}
+                            ></EmojiFlagsIcon>
+                          </Button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classesList.details}>
@@ -182,7 +232,7 @@ export const TeamList = () => {
                       />
                     </ListItemAvatar>
                     <h1>{key.teamLeader.name}</h1>
-                    <h1>{key.teamLeader._id}</h1>
+
                     <h3>{key.teamLeader.sumonnerName}</h3>
                   </div>
 
@@ -224,52 +274,7 @@ export const TeamList = () => {
                   </div>
                 </ExpansionPanelDetails>
                 <Divider />
-                <ExpansionPanelActions>
-                  <div>
-                    {isOpened && (
-                      <div>
-                        <div className={classesList.divdate}>
-                          <p
-                            style={{
-                              color: "#2E3B55",
-                              fontWeight: "bold",
-                            }}
-                          >
-                            Set your game date here
-                          </p>
-                        </div>
-
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                          <DateTimePicker
-                            label="Game date"
-                            inputVariant="outlined"
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                          />
-                        </MuiPickersUtilsProvider>
-                        <Button
-                          onClick={() => {
-                            dispatch(
-                              notificationActions.challengeTeam(
-                                parsedUser.user._id,
-                                key.teamLeader._id,
-                                selectedDate
-                              )
-                            );
-                            handleCloseChallenge();
-                            setOpen(true);
-                            toggle();
-                          }}
-                        >
-                          <SendIcon
-                            fontSize="large"
-                            style={{ color: "#2E3B55" }}
-                          ></SendIcon>
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                </ExpansionPanelActions>
+                <ExpansionPanelActions></ExpansionPanelActions>
               </ExpansionPanel>
             </div>
           </div>

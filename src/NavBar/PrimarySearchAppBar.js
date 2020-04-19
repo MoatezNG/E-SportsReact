@@ -182,9 +182,6 @@ export const PrimarySearchAppBar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorEl1, setAnchorEl1] = React.useState(null);
-  const [DateGame, setDateGame] = React.useState(
-    "2020-04-16T22:57:00.000+00:00"
-  );
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const theme = useTheme();

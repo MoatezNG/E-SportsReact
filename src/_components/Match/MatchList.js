@@ -89,9 +89,6 @@ const useStylesList = makeStyles((theme) => ({
   eachStatsBlue: {
     marginTop: 38,
   },
-  eachStatsBlue: {
-    marginTop: 38,
-  },
   membersred: {
     marginLeft: -270,
     marginTop: -370,
