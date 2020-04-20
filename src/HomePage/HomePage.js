@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 const drawerWidth = 240;
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0

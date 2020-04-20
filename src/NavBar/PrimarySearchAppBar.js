@@ -239,8 +239,13 @@ export const PrimarySearchAppBar = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={routeChange}>Logout</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Link to="/profile">  
+      <MenuItem onClick={handleMenuClose} >My account</MenuItem></Link>
     </Menu>
+
+
+
+
   );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -367,7 +372,7 @@ export const PrimarySearchAppBar = () => {
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://trello-members.s3.amazonaws.com/5c4c619706810d245f95ef7a/ec68aa9261bd15b60bb88b3301bc491e/original.png"
+                  src="https://trello-members.s3.amazonaws.com/5c6de55525f9520704469c66/555576654b9ba02ff939998a2baff98e/original.png"
                 />
               </IconButton>
             </div>

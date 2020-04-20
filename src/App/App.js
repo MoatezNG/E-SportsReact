@@ -11,6 +11,9 @@ import { RegisterPage } from "../RegisterPage";
 import { ProfilePage } from "../ProfilePage";
 import { Tournament } from "../_components/Tournament";
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
+import {ProfileInfos} from "../ProfilePage/ProfileInfos";
+import {TeamList} from "../ProfilePage/TeamList";
+import {Team} from "../ProfilePage/Team";
 
 class App extends React.Component {
   constructor(props) {

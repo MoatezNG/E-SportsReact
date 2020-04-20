@@ -1,99 +1,120 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import SwipeableViews from 'react-swipeable-views';
 import { useSelector, useDispatch } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { makeStyles } from "@material-ui/core/styles";
 import { userActions } from "../_actions";
+import {ProfileInfos} from "./ProfileInfos";
+import {InfosUser} from "./infos";
+import {PasswordUser} from "./infos";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import {Team} from "./Team";
+
+import PropTypes from 'prop-types';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 const useStyles = makeStyles(theme => ({
     input: {
         margin: '40px 0'
-    }
+    },
+    root: {
+        backgroundColor: theme.palette.background.paper,
+        width: 900,
+      },
+      small: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+      },
+      large: {
+        width: theme.spacing(9),
+        height: theme.spacing(9),
+      },
 }));
 
-export const ProfilePage = () => {
-    const classes = useStyles();
-    const user = useSelector(state => state.authentication.user)
-    const dispatch = useDispatch();
-    /**
-     * Initialising the user data in the state
-     */
-    const [email, setEmail] = useState(user.email)
-    const [name, setName] = useState(user.name)
-    const [prename, setPrename] = useState(user.prename)
-    const [username, setUsername] = useState(user.username)
-    const [sumonnerName, setSumonnerName] = useState(user.sumonnerName)
-    const [userImage, setUserImage] = useState(user.userImage)
-    const handleSubmit = () => {
-        const payload = {
-            email,
-            name,
-            prename,
-            username,
-            sumonnerName,
-            userImage,
-        }
-        dispatch(userActions.updateUser(payload))
-    }
+
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
     return (
-        <div className="col-md-6 col-md-offset-3">
+      <Typography
+        component="div"
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box p={3}>{children}</Box>}
+      </Typography>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `full-width-tab-${index}`,
+      'aria-controls': `full-width-tabpanel-${index}`,
+    };
+  }
+  
+  
+  
+  export   function ProfilePage() {
+    const classes = useStyles();
+    const theme = useTheme();
+    const [value, setValue] = React.useState(0);
+  
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+  
+    const handleChangeIndex = (index) => {
+      setValue(index);
+    };
+  
+    return (  <div className="col-md-8 col-md-offset-2">
+      <div className={classes.root}>
+     
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Profile Infos" {...a11yProps(0)} />
+            <Tab label="My Teams" {...a11yProps(1)} />
+            <Tab label="Password" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+          <TabPanel value={value} index={0} dir={theme.direction}>
+          <InfosUser/>
+          </TabPanel>
+          <TabPanel value={value} index={1} dir={theme.direction}>
+          <Team/>
+          </TabPanel>
+          <TabPanel value={value} index={2} dir={theme.direction}>
+           <PasswordUser/>         </TabPanel>
+        </SwipeableViews>
+      </div>
+      </div>
+    );
+  }
 
-            <h2>Profile page</h2>
-
-            <div className="col-md-6 col-md-offset-3">
-
-                <div className={classes.input}>
-                    <TextField
-                        value={username}
-                        id="standard-basic"
-                        label="Username"
-                        onChange={e => setUsername(e.target.value)}
-                    />
-                </div>
-                <div className={classes.input}>
-                    <TextField
-                        value={name}
-                        id="standard-basic"
-                        label="first Name"
-                        onChange={e => setName(e.target.value)}
-                    />
-                </div>
-                <div className={classes.input}>
-                    <TextField
-                        value={prename}
-                        id="standard-basic"
-                        label="Last Name"
-                        onChange={e => setPrename(e.target.value)}
-                    />
-                </div>
-                <div className={classes.input}>
-                    <TextField
-                        value={email}
-                        id="standard-basic"
-                        label="Email"
-                        onChange={e => setEmail(e.target.value)}
-                    />
-                </div>
-                <div className={classes.input}>
-                    <TextField
-                        value={sumonnerName}
-                        id="standard-basic"
-                        label="Summoner Name"
-                        onChange={e => setSumonnerName(e.target.value)}
-                    />
-                </div>
-                <div className={classes.input}>
-                    <label>Profile picture</label>
-                    {
-                        userImage && <img src={`localhost:3001/${userImage}`} />
-                    }
-                    <input onChange={e => setUserImage(e.target.files[0])} type="file" />
-                </div>
-                <Button onClick={handleSubmit} variant="contained" color="primary" type='submit'>Update</Button>
-
-
-            </div>
-        </div>
-
-    )
-}

@@ -5,7 +5,7 @@ import { users } from "./users.reducer";
 import { alert } from "./alert.reducer";
 import { drawer } from "./drawer.reducer";
 import { notification } from "./notification.reducer";
-import { findTeam } from "./team.reducer";
+import { findTeam , teams} from "./team.reducer";
 import { tournaments } from "./tournament.reducer";
 
 const rootReducer = combineReducers({
@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
   drawer,
   notification,
   findTeam,
-  tournaments
+  tournaments,
+  teams
 });
 
 export default rootReducer;
