@@ -116,6 +116,7 @@ export const ProfileInfos = () => {
             id="standard-basic"
             label="first Name"
             onChange={e => setName(e.target.value)}
+            defaultValue="Oumaima"
         />
     </div>
     <div className={classes.input}>
@@ -125,6 +126,8 @@ export const ProfileInfos = () => {
             id="standard-basic"
             label="Last Name"
             onChange={e => setPrename(e.target.value)}
+            defaultValue="Nefzi"
+
         />
     </div>
     <div className={classes.input}>
@@ -149,9 +152,7 @@ export const ProfileInfos = () => {
      <SystemUpdateAltIcon></SystemUpdateAltIcon>
       Update</Button> */}  
       </CardContent>
-      <CardActions>
-        <Button size="small">Desactivate My account</Button>
-      </CardActions>
+     
     </Card>
             
             </div>

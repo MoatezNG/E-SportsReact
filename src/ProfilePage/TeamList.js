@@ -32,9 +32,11 @@ const useStylesList = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
    
   },
-  input1:{
-    width:"100%"
-  },
+  input1: {
+    width: 500,
+    '& > * + *': {
+      marginTop: theme.spacing(3),
+    },},
   inline: {
     display: "inline"
   },
@@ -145,10 +147,6 @@ export const TeamList = () => {
                 <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} ><h2> {key.teamName}</h2></Typography>  
                 </div>
               </div>
-              <Button variant="contained" color="secondary">
-                <SportsEsportsIcon></SportsEsportsIcon>
-                Challenge !
-              </Button>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails >
            
@@ -251,7 +249,7 @@ const UserConnected = [
  const classesList = useStylesList();
   return (
     
-    <Card className={classesList.rootEx}>
+    <Card className={classesList.input1}>
     <CardContent>
     <Autocomplete
         multiple
@@ -269,9 +267,7 @@ const UserConnected = [
         )}
       />
     </CardContent>
-    <CardActions>
-      <Button size="small">Invite All</Button>
-    </CardActions>
+   
   </Card>
 
   )

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles } from '@material-ui/core/styles';
+import { lighten, makeStyles, withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -22,7 +22,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import { grey } from '@material-ui/core/colors';
+import { grey, yellow } from '@material-ui/core/colors';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrophy , faAward ,faMedal} from '@fortawesome/free-solid-svg-icons';
+
 const useStyles = makeStyles({
   root: {
     minWidth: 420,
@@ -38,6 +42,12 @@ const useStyles = makeStyles({
   box: {
     display:'flex',
     justifyContent:"space-between",
+    
+  },
+  boxx: {
+    display:'flex',
+    justifyContent:"space-between",
+    paddingTop:20
   },
   box1:{
     display:'flex', 
@@ -49,6 +59,11 @@ const useStyles = makeStyles({
     justifyContent:"space-evenly",
     margin: '40px 0'
   },
+  levels:{
+    display:'flex', 
+    justifyContent:"space-between",
+    margin: '10px 0'
+  },
   input:{
     margin: '20px 0'
   },
@@ -57,6 +72,11 @@ const useStyles = makeStyles({
     flexDirection:"column",
     justifyContent:"space-evenly"
  },
+ column1:{
+  display:"flex", 
+  flexDirection:"column",
+  justifyContent:"space-between"
+},
  item:{
     display:'flex',
    
@@ -69,10 +89,41 @@ const useStyles = makeStyles({
   button:{
     paddingLeft:650,
 
+  },
+  rootlevel: {
+    minWidth: 520,
+    height:150,
+    marginTop:20
+  },
+  xp: {
+    display:'flex',
+    alignItems:'center',
+    
+  },
+  trophies:{
+    minWidth: 320,
+    height:190
+  },
+  trophies2:{
+    display:'flex',
+    justifyContent:"space-evenly",
+    paddingTop:10
+    
+  },
+  award:{
+     marginRight:150
   }
-
- 
 });
+const BorderLinearProgress = withStyles({
+  root: {
+    height: 10,
+    backgroundColor: lighten('#CEE3F6', 0.5),
+  },
+  bar: {
+    borderRadius: 20,
+    backgroundColor: '#CEE3F6',
+  },
+})(LinearProgress);
 const useStyles1 = makeStyles((theme) => ({
     large: {
       width: theme.spacing(10),
@@ -120,6 +171,7 @@ export  function InfosUser() {
   const classes = useStyles();
   const classes1 = useStyles1();
   return (
+    <div>
       <div className={classes.box}>
     <Card className={classes.root}>
       <CardContent>
@@ -210,11 +262,7 @@ export  function InfosUser() {
         </div>
         </div>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
     </Card>
-   
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Update Profile</DialogTitle>
         <DialogContent>
@@ -229,8 +277,58 @@ export  function InfosUser() {
           </Button>
         </DialogActions>
       </Dialog>
+
+
+
     </div>
-   
+<div  className={classes.boxx}>
+    <Card className={classes.trophies} >
+      <CardContent >
+      <Typography className={classes.title} color="textSecondary"  gutterBottom style={{ marginLeft:98 }}>
+         <h3>TROPHIES</h3>  </Typography>
+         
+        <div className={classes.trophies2}>   
+        <Typography variant="body2" color="textSecondary" component="p" className={classes.award}  > BEST MATCH  <span style={{ color: yellow[500] }} >0/5</span> </Typography> 
+        <FontAwesomeIcon icon={faTrophy} size="2x"  />
+        </div>
+        <div className={classes.trophies2} > 
+        <Typography variant="body2" color="textSecondary" component="p" className={classes.award}  > BEST PLAYER <span style={{ color: yellow[500] }} >0/5</span>  </Typography>   
+        <FontAwesomeIcon icon={ faAward} size="2x" /> 
+        </div>
+        <div className={classes.trophies2} >   
+        <Typography variant="body2" color="textSecondary" component="p"  className={classes.award}  > 1st WIN   </Typography>   
+          <FontAwesomeIcon icon={ faMedal} size="2x"  /> 
+        
+        </div>
+       
+      </CardContent></Card>
+      <Card className={classes.rootlevel} >
+      <CardContent>
+      <div className={classes.levels}>
+        <Typography className={classes.title} color="textSecondary" gutterBottom>
+         <h3>LEVEL1</h3>   
+        </Typography>       
+        <Typography variant="body2" color="textSecondary" component="p">
+       <span> Compete to earn more </span> <span style={{ color: yellow[500] }} >XP</span>
+        </Typography> 
+    <Typography className={classes.title} color="textSecondary" gutterBottom>
+         <h3>LEVEL2</h3>   
+        </Typography> 
+      </div>
+       
+        <BorderLinearProgress
+        className={classes.margin}
+        variant="determinate"
+        color="primary"
+        value={0}
+      />
+      <Typography variant="body2" color="textSecondary" component="p" style={{ marginLeft:210, marginTop:20 }}  >
+       <span>0 / 5,000 </span> <span style={{ color: yellow[500] }} >XP</span>
+        </Typography> 
+      </CardContent></Card>
+      
+      </div>
+    </div>
   );
 }
 export  function PasswordUser() {
@@ -243,14 +341,16 @@ export  function PasswordUser() {
   const [newpassword, setNewPassword] = useState(user.newpassword)
   const [confirmpassword, setConfirmpassword] = useState(user.confirmpassword)
 
-  const handleSubmit = () => {
+  const ChangePassword = () => {
       const payload = {
           password1,
           newpassword,
           confirmpassword
       }
-      dispatch(userActions.updateUser(payload))
+      dispatch(userActions.updatePassword(payload))
+      alert('PasswordChanged')
   }
+ 
  /////
  
  const [values, setValues] = React.useState({
@@ -274,9 +374,6 @@ const handleMouseDownPassword = (event) => {
   
 };
 
-
-
-  ///////
   const classes1 = useStyles1();
 
   const classes = useStyles();
@@ -357,7 +454,10 @@ const handleMouseDownPassword = (event) => {
        
       </CardContent>
       <CardActions className={classes.button}>
-      <Button  variant="outlined" color="primary" size="small">Update My Password</Button>      </CardActions>
+      <Button  variant="outlined" color="primary" size="small" onClick={ChangePassword}>Update My Password</Button>      </CardActions>
+      <CardActions>
+        <Button size="small">Desactivate My account</Button>
+      </CardActions>
     </Card>
     </div>
    

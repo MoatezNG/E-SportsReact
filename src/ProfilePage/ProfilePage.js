@@ -95,8 +95,8 @@ function TabPanel(props) {
             aria-label="full width tabs example"
           >
             <Tab label="Profile Infos" {...a11yProps(0)} />
-            <Tab label="My Teams" {...a11yProps(1)} />
-            <Tab label="Password" {...a11yProps(2)} />
+            <Tab label="My Team" {...a11yProps(1)} />
+            <Tab label="Security" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <SwipeableViews

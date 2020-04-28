@@ -109,10 +109,35 @@ function updateUser(user) {
   }
 }
 
+function updatePassword(user) {
+  function request() {
+    return { type: userConstants.UPDATE_REQUEST };
+  }
+  function success(user) {
+    return { type: userConstants.UPDATE_SUCCESS, user };
+  }
+  function failure(error) {
+    return { type: userConstants.UPDATE_FAILURE, error };
+  }
+
+  return dispatch => {
+    dispatch(request())
+
+    userService
+      .updateUser(user)
+      .then(response => {
+        dispatch(success(response))
+      })
+      .catch(error => {
+        dispatch(failure(error))
+      })
+  }
+}
 export const userActions = {
   login,
   logout,
   getAll,
   register,
-  updateUser
+  updateUser,
+  updatePassword
 };
