@@ -1,11 +1,19 @@
 import { notificationService } from "../_services";
-import { notifConstants, challengeConstants } from "../_constants";
+import {
+  notifConstants,
+  challengeConstants,
+  acceptednotifConstants,
+  unreadednotifConstants,
+} from "../_constants";
 import { alertActions } from "./";
 
 export const notificationActions = {
   getNotification,
   challengeTeam,
   acceptChallenge,
+  getAcceptedInvites,
+  getUnreadednotif,
+  readNotification,
 };
 
 function getNotification(userId) {
@@ -28,6 +36,9 @@ function request() {
 }
 function success(notification) {
   return { type: notifConstants.NOTIF_SUCCESS, notification };
+}
+function acceptinvitation(notificationId) {
+  return { type: "ACCEPT_NOTIFICATION", notificationId };
 }
 function failure(error) {
   return { type: notifConstants.NOTIF_FAILURE, error };
@@ -58,11 +69,18 @@ function challengeTeam(invitingL, recevingL, DateGame) {
   }
 }
 function acceptChallenge(notifId, invitingL, recevingL) {
+  return async (dispatch) => {
+    await notificationService.acceptChallenge(notifId, invitingL, recevingL);
+    dispatch(acceptinvitation(notifId));
+  };
+}
+
+function getAcceptedInvites(userId) {
   return (dispatch) => {
     dispatch(request());
-    notificationService.acceptChallenge(notifId, invitingL, recevingL).then(
-      (notificationRequest) => {
-        dispatch(success(notificationRequest));
+    notificationService.getAcceptedNotif(userId).then(
+      (acceptednotification) => {
+        dispatch(success(acceptednotification));
       },
       (error) => {
         dispatch(failure(error));
@@ -71,13 +89,66 @@ function acceptChallenge(notifId, invitingL, recevingL) {
   };
 
   function request() {
-    return { type: challengeConstants.CHALLENGE_REQUEST };
+    return { type: acceptednotifConstants.NOTIFACC_REQUEST };
   }
-  function success(notificationRequest) {
-    return { type: challengeConstants.CHALLENGE_SUCCESS, notificationRequest };
+  function success(acceptednotification) {
+    return {
+      type: acceptednotifConstants.NOTIFACC_SUCCESS,
+      acceptednotification,
+    };
   }
-
   function failure(error) {
-    return { type: challengeConstants.CHALLENGE_FAILURE, error };
+    return { type: acceptednotifConstants.NOTIFACC_FAILURE, error };
+  }
+}
+function getUnreadednotif(userId) {
+  return (dispatch) => {
+    dispatch(request());
+    notificationService.getUndreadedNotif(userId).then(
+      (unread) => {
+        dispatch(success(unread));
+      },
+      (error) => {
+        dispatch(failure(error));
+      }
+    );
+  };
+
+  function request() {
+    return { type: unreadednotifConstants.UN_REQUEST };
+  }
+  function success(unread) {
+    return { type: unreadednotifConstants.UN_SUCCESS, unread };
+  }
+  function failure(error) {
+    return { type: unreadednotifConstants.UN_FAILURE, error };
+  }
+}
+
+function readNotification(userId) {
+  return (dispatch) => {
+    dispatch(request());
+    notificationService.readNotification(userId);
+    const timer = setTimeout(() => {
+      notificationService.getUndreadedNotif(userId).then(
+        (unread) => {
+          dispatch(success(unread));
+        },
+        (error) => {
+          dispatch(failure(error));
+        }
+      );
+    }, 200);
+    return () => clearTimeout(timer);
+  };
+
+  function request() {
+    return { type: unreadednotifConstants.UN_REQUEST };
+  }
+  function success(unread) {
+    return { type: unreadednotifConstants.UN_SUCCESS, unread };
+  }
+  function failure(error) {
+    return { type: unreadednotifConstants.UN_FAILURE, error };
   }
 }

@@ -5,7 +5,7 @@ import { matchActions } from "../../_actions/match.actions";
 import clsx from "clsx";
 import MatchList from "./MatchList";
 export const Match = () => {
-  const open = useSelector(state => state.drawer);
+  const open = useSelector((state) => state.drawer);
   const dispatch = useDispatch();
   const classes = useStyles();
   useEffect(() => {
@@ -15,7 +15,7 @@ export const Match = () => {
     <div>
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open
+          [classes.contentShift]: open,
         })}
       >
         <div style={{ marginLeft: "300px" }}>

@@ -4,6 +4,9 @@ export const notificationService = {
   getNotification,
   challengeTeam,
   acceptChallenge,
+  getAcceptedNotif,
+  getUndreadedNotif,
+  readNotification,
 };
 
 async function getNotification(userId) {
@@ -15,7 +18,33 @@ async function getNotification(userId) {
   }
   return "";
 }
-
+async function readNotification(userId) {
+  let response = await axios.get(
+    "http://localhost:3001/notification/read/" + userId
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return "";
+}
+async function getAcceptedNotif(userId) {
+  let response = await axios.get(
+    "http://localhost:3001/notification/getaccepted/" + userId
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return "";
+}
+async function getUndreadedNotif(userId) {
+  let response = await axios.get(
+    "http://localhost:3001/notification/unreaded/" + userId
+  );
+  if (response.status === 200) {
+    return response.data;
+  }
+  return "";
+}
 async function acceptChallenge(notifId, invitingL, recevingL) {
   let response = await axios.patch(
     "http://localhost:3001/notification/accept/" +

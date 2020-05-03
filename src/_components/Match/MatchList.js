@@ -89,6 +89,7 @@ const useStylesList = makeStyles((theme) => ({
   eachStatsBlue: {
     marginTop: 38,
   },
+
   membersred: {
     marginLeft: -270,
     marginTop: -370,
@@ -128,7 +129,14 @@ const useStylesList = makeStyles((theme) => ({
     width: theme.spacing(2),
     height: theme.spacing(2),
   },
+  summary: {
+    backgroundColor: "#3CB371",
+  },
+  summarylose: {
+    backgroundColor: "#ff3232",
+  },
 }));
+
 const MatchList = () => {
   const ddragonImageUrl =
     "http://ddragon.leagueoflegends.com/cdn/10.7.1/img/champion/";
@@ -243,30 +251,69 @@ const MatchList = () => {
       <div key={key._id} className={classesList.root}>
         <div className={classesList.rootEx}>
           <ExpansionPanel>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1c-content"
-              id="panel1c-header"
-            >
-              <div className={classesList.column}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
-                />
-              </div>
-              <div className={classesList.column}>
-                <div>
-                  <h1>vs</h1>
-                </div>
-              </div>
-              <Avatar
-                alt="Remy Sharp"
-                src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
-              />
-              <div className={classesList.margduration}>
-                <h3>{_.round(key.gameDuration / 1000, 0)} seconds</h3>
-              </div>
-            </ExpansionPanelSummary>
+            {key.participentsBlue.map((partblue) => {
+              console.log(key.TeamWining._id);
+              console.log(partblue.team._id);
+              if (key.TeamWining._id === "5e83397833051b336ea7fc48") {
+                console.log(key.TeamWining._id + "ddd " + partblue.team._id);
+                return (
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1c-content"
+                    id="panel1c-header"
+                    className={classesList.summary}
+                  >
+                    <div className={classesList.column}>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
+                      />
+                    </div>
+                    <div className={classesList.column}>
+                      <div>
+                        <h1>vs</h1>
+                      </div>
+                    </div>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
+                    />
+                    <div className={classesList.margduration}>
+                      <h3>{_.round(key.gameDuration / 1000, 0)} seconds</h3>
+                    </div>
+                  </ExpansionPanelSummary>
+                );
+              } else {
+                return (
+                  <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1c-content"
+                    id="panel1c-header"
+                    className={classesList.summarylose}
+                  >
+                    <div className={classesList.column}>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
+                      />
+                    </div>
+                    <div className={classesList.column}>
+                      <div>
+                        <h1>vs</h1>
+                      </div>
+                    </div>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
+                    />
+                    <div className={classesList.margduration}>
+                      <h3>{_.round(key.gameDuration / 1000, 0)} seconds</h3>
+                    </div>
+                  </ExpansionPanelSummary>
+                );
+              }
+            })}
+
             <ExpansionPanelDetails className={classesList.column}>
               <div key={key._id}>
                 {key.participentsBlue.map((partblue) => {
@@ -276,6 +323,7 @@ const MatchList = () => {
                         <div className={classesList.teamname}>
                           <h3>{partblue.team.teamName}</h3>
                         </div>
+
                         <p></p>
                         {partblue.part.map((p) => {
                           return <div>{getChampion(p.championId)}</div>;

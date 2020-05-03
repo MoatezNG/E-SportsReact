@@ -15,7 +15,6 @@ import Button from "@material-ui/core/Button";
 import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
-
 import DateFnsUtils from "@date-io/date-fns";
 
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
@@ -83,9 +82,10 @@ export const TeamList = () => {
   const teams = useSelector((state) => state.teams);
   const [open, setOpen] = React.useState(false);
   const [selectedDate, handleDateChange] = React.useState(new Date());
+
   const dispatch = useDispatch();
   const parsedUser = JSON.parse(localStorage.getItem("user"));
-
+  const requestChallenge = useSelector((state) => state.notificationRequest);
   const [isOpened, setIsOpened] = React.useState(true);
   const [shownDate, setShownDate] = React.useState({});
   const toggle = (id) => {
@@ -101,6 +101,10 @@ export const TeamList = () => {
     }));
   };
   //
+
+  const sendNotif = () => {
+    console.log(requestChallenge);
+  };
   return (
     <div>
       <div>
@@ -193,7 +197,7 @@ export const TeamList = () => {
                                   selectedDate
                                 )
                               );
-
+                              sendNotif();
                               setOpen(true);
 
                               event.stopPropagation();

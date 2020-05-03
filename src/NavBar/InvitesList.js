@@ -12,7 +12,9 @@ import SportsEsportsIcon from "@material-ui/icons/SportsEsports";
 import EmojiFlagsIcon from "@material-ui/icons/EmojiFlags";
 import IconButton from "@material-ui/core/IconButton";
 import { notificationActions } from "../_actions";
+import Typography from "@material-ui/core/Typography";
 
+import moment from "moment";
 const listStyle = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -28,9 +30,29 @@ const listStyle = makeStyles((theme) => ({
 
 export const InvitesList = () => {
   const listClasses = listStyle();
+  const acceptchall = (id, invil, connecu) => {
+    dispatch(notificationActions.acceptChallenge(id, invil, connecu));
+  };
   const dispatch = useDispatch();
   const notification = useSelector((state) => state.notification);
+
   const parsedUser = JSON.parse(localStorage.getItem("user"));
+  if (notification.length === 0) {
+    return (
+      <List className={listClasses.root}>
+        <ListItem alignItems="flex-start" button>
+          <p
+            style={{
+              color: "#2E3B55",
+              fontWeight: "bold",
+            }}
+          >
+            You dont have any recent invites
+          </p>
+        </ListItem>
+      </List>
+    );
+  }
 
   return notification.map((key) => {
     return (
@@ -45,20 +67,38 @@ export const InvitesList = () => {
             </ListItemAvatar>
 
             <ListItemText
-              primary={key.invitingLeader.teamOwned.teamName}
-              secondary="Has challenged you to a friendly match!"
+              primary={
+                key.invitingLeader.teamOwned.teamName +
+                " — Has challenged you in a friendly match !  "
+              }
+              secondary={
+                <React.Fragment>
+                  <Typography component="span" variant="body2">
+                    {"At — " +
+                      moment(key.DateGame).format("MMMM Do YYYY, h:mm:ss a")}
+                  </Typography>
+
+                  <p
+                    style={{
+                      color: "#2E3B55",
+                      fontWeight: "bold",
+                      margin: 0,
+                    }}
+                  >
+                    {moment(key.createdAt).fromNow()}
+                  </p>
+                </React.Fragment>
+              }
             />
             <IconButton
               aria-label="delete"
-              onClick={() =>
-                dispatch(
-                  notificationActions.acceptChallenge(
-                    key._id,
-                    key.invitingLeader._id,
-                    parsedUser.user._id
-                  )
-                )
-              }
+              onClick={() => {
+                acceptchall(
+                  key._id,
+                  key.invitingLeader._id,
+                  parsedUser.user._id
+                );
+              }}
             >
               <SportsEsportsIcon fontSize="large" color="primary" />
             </IconButton>

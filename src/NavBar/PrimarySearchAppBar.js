@@ -31,11 +31,13 @@ import { drawerAction } from "../_actions";
 import { notificationActions } from "../_actions";
 import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
+import { NotifList } from "../NavBar/NotifList";
 import { useHistory } from "react-router-dom";
 import SendIcon from "@material-ui/icons/Send";
 import Avatar from "@material-ui/core/Avatar";
 import ClearAllIcon from "@material-ui/icons/ClearAll";
 import { userActions } from "../_actions";
+import useSocket from "../NavBar/socket";
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
 
@@ -177,15 +179,39 @@ const StyledMenu = withStyles({
     {...props}
   />
 ));
+const StyledMenuNotif = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
 
 export const PrimarySearchAppBar = () => {
   const classes = useStyles();
+  const socket = useSocket();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElnotif, setAnchorElnotif] = React.useState(null);
   const [anchorEl1, setAnchorEl1] = React.useState(null);
-
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const theme = useTheme();
   const notif = useSelector((state) => state.notification);
+  const unreadnotifs = useSelector((state) => state.unread);
+  const parsedUser1 = JSON.parse(localStorage.getItem("user"));
+  const [notifications, setNotifications] = React.useState([]);
+
   const open = useSelector((state) => state.drawer);
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
@@ -198,6 +224,12 @@ export const PrimarySearchAppBar = () => {
   };
   const handleClose = () => {
     setAnchorEl1(null);
+  };
+  const handleClicknotif = (event) => {
+    setAnchorElnotif(event.currentTarget);
+  };
+  const handleClosenotif = () => {
+    setAnchorElnotif(null);
   };
 
   const handleProfileMenuOpen = (event) => {
@@ -232,14 +264,38 @@ export const PrimarySearchAppBar = () => {
     history.push(path);
   };
   useEffect(() => {
+    // step 2 : dès que le composant render (équivalent de componentDidMount), il envoie un événement "auth".
+    socket.emit("auth", parsedUser1.user._id);
+    console.log(parsedUser1.user._id);
+
+    // step 4 : on attend constamment un événement qui s'appelle "notifications", une fois que l'événement est reçu, on récupère les notifs reçues
+    socket.on("notifications", (notifications) => {
+      setNotifications(notifications);
+    });
+
+    socket.on("newNotif", (requestChallenge) => {
+      setNotifications([...notifications, requestChallenge]);
+      console.log(requestChallenge);
+    });
+    // equivalent de componentWillUnmount, ma3neha wa9tli l'utilisateur quitte la page, tetsaker el socket.
+    return () => {
+      socket.close();
+    };
+
+    /* eslint-disable */
+  }, [socket]);
+  useEffect(() => {
     if (!user) return;
     else {
       const parsedUser = JSON.parse(localStorage.getItem("user"));
-      dispatch(notificationActions.getNotification(parsedUser.user._id));
+      // dispatch(notificationActions.getNotification(parsedUser.user._id));
+      dispatch(notificationActions.getAcceptedInvites(parsedUser.user._id));
+      dispatch(notificationActions.getUnreadednotif(parsedUser.user._id));
     }
   }, [user, dispatch]);
 
   const numNotif = notif.length;
+  const numUndreadedNotif = unreadnotifs.length;
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -251,7 +307,14 @@ export const PrimarySearchAppBar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => routeChange()}>Logout</MenuItem>
+      <MenuItem
+        onClick={() => {
+          routeChange();
+          handleMenuClose();
+        }}
+      >
+        Logout
+      </MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
@@ -346,7 +409,6 @@ export const PrimarySearchAppBar = () => {
               >
                 <div className={classes.ListPos}>
                   <h1> Invites </h1>
-
                   <ClearAllIcon />
                 </div>
                 <InvitesList />
@@ -354,25 +416,47 @@ export const PrimarySearchAppBar = () => {
               <IconButton
                 aria-label="show"
                 color="inherit"
-                onClick={handleClick}
+                onClick={(e) => {
+                  handleClick(e);
+                  dispatch(
+                    notificationActions.getNotification(parsedUser1.user._id)
+                  );
+                }}
               >
-                <Badge badgeContent={numNotif} color="secondary">
+                <Badge badgeContent={notifications.length} color="secondary">
                   <GroupIcon fontSize="large" />
                 </Badge>
               </IconButton>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon fontSize="large" />
-                </Badge>
-              </IconButton>
+
               <IconButton
-                aria-label="show 17 new notifications"
+                aria-label="show"
                 color="inherit"
+                onClick={(e) => {
+                  handleClicknotif(e);
+                  dispatch(
+                    notificationActions.readNotification(parsedUser1.user._id)
+                  );
+                }}
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={numUndreadedNotif} color="secondary">
                   <NotificationsIcon fontSize="large" />
                 </Badge>
               </IconButton>
+
+              <StyledMenuNotif
+                id="customized-menu"
+                anchorEl={anchorElnotif}
+                keepMounted
+                open={Boolean(anchorElnotif)}
+                onClose={handleClosenotif}
+              >
+                <div className={classes.ListPos}>
+                  <h1> Notifications </h1>
+
+                  <ClearAllIcon />
+                </div>
+                <NotifList />
+              </StyledMenuNotif>
               <IconButton
                 edge="end"
                 aria-label="account of current user"

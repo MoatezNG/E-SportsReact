@@ -10,6 +10,8 @@ import { teams } from "./team.reducer";
 import { tournaments } from "./tournament.reducer";
 import { matchs } from "./match.reducer";
 import { notificationRequest } from "./notification.reducer";
+import { acceptednotification } from "./notification.reducer";
+import { unread } from "./notification.reducer";
 
 const rootReducer = combineReducers({
   authentication,
@@ -22,6 +24,8 @@ const rootReducer = combineReducers({
   teams,
   matchs,
   notificationRequest,
+  acceptednotification,
+  unread,
 });
 
 export default rootReducer;
