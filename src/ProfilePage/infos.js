@@ -26,6 +26,7 @@ import { grey, yellow } from '@material-ui/core/colors';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy , faAward ,faMedal} from '@fortawesome/free-solid-svg-icons';
+import { NotifPassword } from "./notification";
 
 const useStyles = makeStyles({
   root: {
@@ -149,14 +150,13 @@ export  function InfosUser() {
   const [userImage, setUserImage] = useState(user.userImage)
   const handleSubmit = () => {
       const payload = {
-          email,
           name,
           prename,
           username,
-          sumonnerName,
           userImage,
       }
       dispatch(userActions.updateUser(payload))
+      setOpen(false);
   }
   const [open, setOpen] = React.useState(false);
 
@@ -340,6 +340,7 @@ export  function PasswordUser() {
   const [password1, setPassword] = useState(user.password)
   const [newpassword, setNewPassword] = useState(user.newpassword)
   const [confirmpassword, setConfirmpassword] = useState(user.confirmpassword)
+  const [success, setSuccess] = useState(false)
 
   const ChangePassword = () => {
       const payload = {
@@ -348,7 +349,10 @@ export  function PasswordUser() {
           confirmpassword
       }
       dispatch(userActions.updatePassword(payload))
-      alert('PasswordChanged')
+      setTimeout(() => {
+        setSuccess(true)
+        
+      }, 3000)
   }
  
  /////
@@ -459,6 +463,9 @@ const handleMouseDownPassword = (event) => {
         <Button size="small">Desactivate My account</Button>
       </CardActions>
     </Card>
+    {
+success && <NotifPassword/> 
+}
     </div>
    
   );

@@ -16,6 +16,12 @@ export const teams = (state = [], action) => {
   switch (action.type) {
     case teamConstants.TEAMS_SUCCESS:
       return action.teams;
+    case teamConstants.GET_MY_TEAM_SUCCESS:
+        return action.team;
+    case  teamConstants.CREATE_TEAM_SUCCESS:
+      return [action.team]    
+    case teamConstants.DELETE_MY_TEAM_SUCCESS:
+      return []
     default:
       return state;
   }

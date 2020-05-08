@@ -65,38 +65,35 @@ const handleSubmit = () => {
     teamName,
     description
   }
-  dispatch(teamActions.add(payload))
+  dispatch(teamActions.addteam(payload))
 }
+
 const classes = useStyless();
 const classes1 = useStyles1();
 const classesList = useStyles();
-  useEffect(() => {
-      console.log("l")
-    dispatch(teamActions.getAllteams());
-  }, []);
+ 
+
+useEffect(() => {
+  console.log("l")
+dispatch(teamActions.getMyTeam());
+}, []);
+
   return (
     <div>
-      <main
+      {team.length ? (
+        <main
         className={clsx(classesList.content, {
           [classes.contentShift]: open
         })}
       >
       
-        <div style={{ marginLeft: "270px" }}>
-        <Typography className={classes.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} ><h3>ALL TEAMS</h3> </Typography>   
-          <TeamList key="1" />
+        <div style={{ marginLeft: "270px" }}>   
+        <TeamList key="1" />
         </div>
       </main>
-      <div className={classes.root}>
-      <ExpansionPanel>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} > <h3>ADD A TEAM</h3></Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+
+      ):(
+        <div className={classes.root}>
           <Typography>
           <div className={classes.input}>
                     { 
@@ -127,15 +124,18 @@ const classesList = useStyles();
                     />
                 </div>
                 
-        <Button onClick={handleSubmit} variant="contained"  type='submit' color="secondary">
+        <Button onClick={handleSubmit} variant="contained"  type='submit' color="secondary"  style={{height:40}} >
                 <AddIcon></AddIcon>
-                <h3>ADD A TEAM</h3>
+                ADD A TEAM
               </Button>
           
           </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      
       </div>
+      )}
+      
+
+     
 
       
     

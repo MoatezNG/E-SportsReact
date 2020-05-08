@@ -59,7 +59,13 @@ function getAll() {
 
     return fetch('http://localhost:3001/users/me', requestOptions).then(handleResponse);
 }
-
+async function getAllUsers() {
+    const requestOptions = {
+      headers: authHeader()
+  };
+    return await axios.get("http://localhost:3001/users/all",requestOptions);
+   
+  }
 function register(user) {
     const formData = new FormData()
     Object.entries(user).forEach(obj => {
@@ -80,7 +86,7 @@ function register(user) {
         })
 }
 
-function updateUser(user) {
+async function updateUser(user) {
     const formData = new FormData()
     Object.entries(user).forEach(obj => {
         const [key, value] = obj
@@ -111,5 +117,6 @@ export const userService = {
     logout,
     getAll,
     register,
-    updateUser
+    updateUser,
+    getAllUsers
 };

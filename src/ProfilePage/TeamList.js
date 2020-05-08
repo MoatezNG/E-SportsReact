@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect,useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
@@ -23,7 +23,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CardActions from '@material-ui/core/CardActions';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Chip from '@material-ui/core/Chip';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { userActions } from "../_actions";
+import { teamActions } from "../_actions/team.actions";
+import { TransitionAlerts } from "./notification";
 
 const useStylesList = makeStyles(theme => ({
   root: {
@@ -114,14 +117,20 @@ title: {
   }
 }));
 export const TeamList = () => {
+  const dispatch = useDispatch();
   const classesList = useStylesList();
   const teams = useSelector(state => state.teams);
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const [success, setSuccess] = useState(false)
 
   const handleClose = () => {
+    setTimeout(() => {
+      setSuccess(true)
+      console.log('Hello, World!')
+    }, 3000)
     setOpen(false);
   };
   return teams.map(key => {
@@ -130,12 +139,8 @@ export const TeamList = () => {
       <div key={key._id}>
 
         <div className={classesList.rootEx}>
-          <ExpansionPanel>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1c-content"
-              id="panel1c-header"
-            >
+          
+            <div>
               <div className={classesList.column}>
                 <Avatar
                   alt="Remy Sharp"
@@ -147,7 +152,7 @@ export const TeamList = () => {
                 <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} ><h2> {key.teamName}</h2></Typography>  
                 </div>
               </div>
-            </ExpansionPanelSummary>
+              </div>
             <ExpansionPanelDetails >
            
             <Card className={classesList.card}>
@@ -171,10 +176,10 @@ export const TeamList = () => {
            {key.teamLeader.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Summoner Name
+            Team Name
             </Typography>
            <Typography gutterBottom variant="h6" component="h2">
-          { key.teamLeader.sumonnerName}
+          { key.teamName}
           </Typography></div>
         </div>
         
@@ -198,12 +203,16 @@ export const TeamList = () => {
                 <GroupAddRoundedIcon ></GroupAddRoundedIcon> 
                Invite
               </Button>
+              <Button variant="contained" color="secondary" onClick={()=>dispatch(teamActions.deleteTeam())}>
+                <DeleteForeverIcon ></DeleteForeverIcon> 
+               Delete
+              </Button>
             </ExpansionPanelActions>
 </CardContent>
 </Card> 
             </ExpansionPanelDetails>
             
-          </ExpansionPanel>
+         
 
           <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Invite Your Team</DialogTitle>
@@ -222,6 +231,11 @@ export const TeamList = () => {
       
 
         </div>
+         
+        {
+success && <TransitionAlerts/> 
+}
+        
       </div>
       
     );
@@ -233,19 +247,12 @@ export const TeamInvite = () => {
   
   const user = useSelector(state => state.authentication.user)
   const dispatch = useDispatch();
-  const [email, setEmail] = useState(user.email)
-  const handleSubmit = () => {
-    const payload = {
-        email,
-    }
-    dispatch(userActions.updateUser(payload))
-}
 const UserConnected = [
-  { title: 'Oumaima ', },
-  { title: 'Znob',  },
-  { title: 'TRayen',  },
-  { title: 'Moatez', },];
-
+  { title: 'test1 ', },
+  { title: 'OumaimaMaay',  },
+  { title: 'Zaineb',  },
+  { title: 'TestEsprit', },];
+ 
  const classesList = useStylesList();
   return (
     
@@ -255,7 +262,6 @@ const UserConnected = [
         multiple
         id="tags-filled"
         options={UserConnected.map((option) => option.title)}
-        defaultValue={[UserConnected[1].title]}
         TeamUsername
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (

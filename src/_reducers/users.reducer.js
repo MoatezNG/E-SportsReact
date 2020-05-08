@@ -17,7 +17,9 @@ export function users(state = {}, action) {
     case userConstants.GETALL_FAILURE:
       return {
         error: action.error
-      };
+      };   
+      case userConstants.GETALL_USERS_REQUEST:
+          return {...state, users: action.data }
     default:
       return state;
   }
