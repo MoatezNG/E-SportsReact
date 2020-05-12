@@ -268,6 +268,7 @@ const UserConnected = [
             <Chip variant="outlined" label={option} {...getTagProps({ index })} />
           ))
         }
+        
         renderInput={(params) => (
           <TextField {...params} variant="filled" label="Team Members" placeholder="Username" />
         )}

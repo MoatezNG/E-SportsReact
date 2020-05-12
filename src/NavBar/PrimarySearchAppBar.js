@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 import { Link } from "react-router-dom";
 import { fade, makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
@@ -34,6 +34,11 @@ import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
 import SendIcon from "@material-ui/icons/Send";
 import Avatar from "@material-ui/core/Avatar";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Chip from '@material-ui/core/Chip';
+import TextField from '@material-ui/core/TextField';
+import { userActions } from "../_actions";
+
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -86,7 +91,7 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: 200
+      width: 400
     }
   },
   sectionDesktop: {
@@ -180,6 +185,7 @@ export const PrimarySearchAppBar = () => {
   const theme = useTheme();
   const notif = useSelector(state => state.notification);
   const open = useSelector(state => state.drawer);
+  const users = useSelector(state => state.users.users)
   const dispatch = useDispatch();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -226,8 +232,15 @@ export const PrimarySearchAppBar = () => {
     }
   }, [user, dispatch]);
 
+   useEffect(() => {
+    dispatch(userActions.getAllUsers())
+  }, []);
+
+
+
   const numNotif = notif.length;
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -298,6 +311,7 @@ export const PrimarySearchAppBar = () => {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open
         })}
+        
       >
         <Toolbar>
           <IconButton
@@ -315,15 +329,38 @@ export const PrimarySearchAppBar = () => {
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
+              
             </div>
-            <InputBase
+            <Autocomplete
+              
+              style={{ width:250,}}
+              placeholder="Username"
+        id="tags-filled"
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+          ))
+        }
+        options={users}
+        renderOption={option=>(<div onClick={() => {
+        dispatch(userActions.selectUser(option))
+       history.push('/user-profile')
+      }}> {option.email}</div>)}
+        getOptionLabel={(option)=>option.email}
+        renderInput={(params) => (
+          <TextField {...params} variant="filled" 
+  />
+        )}
+      />
+            {/* <InputBase
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
               }}
               inputProps={{ "aria-label": "search" }}
-            />
+            /> */}
+         
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>

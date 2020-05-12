@@ -1,6 +1,6 @@
 import { userConstants } from "../_constants";
 
-export function users(state = {}, action) {
+export function users(state = {selectedUser: {}}, action) {
   switch (action.type) {
     case userConstants.REGISTER_SUCCESS:
       return {
@@ -18,8 +18,11 @@ export function users(state = {}, action) {
       return {
         error: action.error
       };   
-      case userConstants.GETALL_USERS_REQUEST:
-          return {...state, users: action.data }
+    
+      case userConstants.GET_ALL_USERS_SUCCESS:
+          return {...state, users: action.users }
+      case userConstants.SELECT_USER:
+        return   {...state, selectedUser: action.user}  
     default:
       return state;
   }

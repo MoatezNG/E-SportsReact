@@ -14,7 +14,7 @@ import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 import {ProfileInfos} from "../ProfilePage/ProfileInfos";
 import {TeamList} from "../ProfilePage/TeamList";
 import {Team} from "../ProfilePage/Team";
-
+import {UsersProfile} from "../_components/UsersProfiles";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -44,6 +44,8 @@ class App extends React.Component {
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/tournaments" component={Tournament} />
+                <PrivateRoute exact path="/user-profile" component={UsersProfile} />
+
               </div>
             </Router>
           </div>

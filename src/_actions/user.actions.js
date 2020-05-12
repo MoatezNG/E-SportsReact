@@ -2,6 +2,7 @@ import { userConstants } from "../_constants";
 import { userService } from "../_services";
 import { alertActions } from "./";
 import { history } from "../_helpers";
+import { func } from "prop-types";
 
 
 
@@ -134,7 +135,38 @@ function updatePassword(user) {
   }
 }
 
+function getAllUsers() {
+  function request() {
+    return { type: userConstants.GET_ALL_USERS_REQUEST };
+  }
+  function success(users) {
+    return { type: userConstants.GET_ALL_USERS_SUCCESS, users };
+  }
+  function failure(error) {
+    return { type: userConstants.GET_ALL_USERS_FAILURE, error };
+  }
 
+  return dispatch => {
+    dispatch(request())
+
+    userService
+      .getAllUsers()
+      .then(response => {
+        dispatch(success(response.data))
+      })
+      .catch(error => {
+        dispatch(failure(error))
+      })
+  }
+}
+function selectUser(user){
+  return{
+    type: userConstants.SELECT_USER,
+    user
+
+  }
+
+}
 
 export const userActions = {
   login,
@@ -142,5 +174,7 @@ export const userActions = {
   getAll,
   register,
   updateUser,
-  updatePassword
+  updatePassword,
+  getAllUsers,
+  selectUser
 };

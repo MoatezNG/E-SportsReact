@@ -66,6 +66,7 @@ async function getAllUsers() {
     return await axios.get("http://localhost:3001/users/all",requestOptions);
    
   }
+  
 function register(user) {
     const formData = new FormData()
     Object.entries(user).forEach(obj => {
