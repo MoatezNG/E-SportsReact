@@ -13,12 +13,12 @@ export const Tournament = () => {
   }, [dispatch]);
 
   const classes = useStyles();
-  const open = useSelector(state => state.drawer);
+  const open = useSelector((state) => state.drawer);
 
   return (
     <main
       className={clsx(classes.content, {
-        [classes.contentShift]: open
+        [classes.contentShift]: open,
       })}
     >
       <TournamentList />

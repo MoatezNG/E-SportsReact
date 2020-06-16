@@ -14,21 +14,21 @@ import { useHistory } from "react-router-dom";
 
 export const TournamentList = () => {
   const history = useHistory();
-  const tournaments = useSelector(state => state.tournaments);
-  const routeTournamentDetails = id => {
+  const tournaments = useSelector((state) => state.tournaments);
+  const routeTournamentDetails = (id) => {
     let path = "/tournamentDetails/" + id;
     history.push(path);
   };
-  const useStyles2 = makeStyles(theme => ({
+  const useStyles2 = makeStyles((theme) => ({
     roote: {
-      maxWidth: 250
+      maxWidth: 250,
     },
     contentCenter: {
-      marginLeft: 300
+      marginLeft: 300,
     },
     media: {
-      height: 140
-    }
+      height: 140,
+    },
   }));
 
   const classes2 = useStyles2();
@@ -39,7 +39,7 @@ export const TournamentList = () => {
       <Grid container className={classes2.root} spacing={2}>
         <Grid item xs={12}>
           <Grid container justify="center" spacing={2}>
-            {tournaments.map(value => (
+            {tournaments.map((value) => (
               <Grid key={value} item>
                 <Card className={classes2.roote}>
                   <CardActionArea>

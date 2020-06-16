@@ -10,8 +10,11 @@ import { LoginPage } from "../LoginPage";
 import { RegisterPage } from "../RegisterPage";
 import { ProfilePage } from "../ProfilePage";
 import { Tournament } from "../_components/Tournament";
+import { NewTournament } from "../_components/NewTournament";
 import { TournaentDetails } from "../_components/TournaentDetails";
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
+import MyTournament from "../_components/MyTournament";
+import { UpdateTournament } from "../_components/UpdateTournament";
 
 class App extends React.Component {
   constructor(props) {
@@ -42,10 +45,15 @@ class App extends React.Component {
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/tournaments" component={Tournament} />
-
+                <Route path="/MyTournaments" component={MyTournament} />
                 <Route
                   path="/tournamentDetails/:id"
                   component={TournaentDetails}
+                />
+                <Route path="/NewTournament" component={NewTournament} />
+                <Route
+                  path="/UpdateTournament/:id"
+                  component={UpdateTournament}
                 />
               </div>
             </Router>
@@ -59,7 +67,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   const { alert } = state;
   return {
-    alert
+    alert,
   };
 }
 

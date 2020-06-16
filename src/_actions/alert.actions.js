@@ -10,8 +10,11 @@ function success(message) {
   return { type: alertConstants.SUCCESS, message };
 }
 
-function error(message) {
-  return { type: alertConstants.ERROR, message };
+function error(error) {
+  return {
+    type: alertConstants.ERROR,
+    message: typeof error === "object" ? error.message : error
+  };
 }
 
 function clear() {

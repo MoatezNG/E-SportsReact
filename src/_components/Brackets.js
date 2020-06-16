@@ -16,14 +16,14 @@ export const Brackets = () => {
   let f1 = 0;
   let f2 = 0;
   let f3 = 0;
-  let winLoose0 = "";
-  let winLoose1 = "";
-  let matchup = "";
-  let matchup1 = "";
+  let winLoose0 = "#";
+  let winLoose1 = "#";
+  let matchup = "matchup1";
+  let matchup1 = "matchup1";
   let teamName0 = "";
   let teamName1 = "";
 
-  const tournament = useSelector(state => state.tournament);
+  const tournament = useSelector((state) => state.tournament);
   console.log(tournament);
   let matcheh = (
     matchup,
@@ -54,24 +54,33 @@ export const Brackets = () => {
   };
   if (tournament.numberOfTeams > 0) {
     let nbMatchs = tournament.matchs.length;
+    console.log(nbMatchs);
     tournament.matchs.map((element, i) => {
+      console.log(element.teams[1]);
       if (element.TeamWining === element.teams[0]._id) {
         winLoose0 = "🔥W";
         matchup = "matchup";
         matchup1 = "matchup1";
         winLoose1 = "L";
-      } else {
+      } else if (element.TeamWining === element.teams[1]._id) {
         winLoose0 = "L";
         winLoose1 = "🔥W";
         matchup = "matchup1";
         matchup1 = "matchup";
+      } else if (element.TeamWining == null) {
+        winLoose0 = "#";
+        winLoose1 = "#";
+        matchup = "matchup1";
+        matchup1 = "matchup1";
       }
+      teamName0 = element.teams[0].teamName;
+      teamName1 = element.teams[1].teamName;
       if (element.TypeOfMath === 0) {
         if (f0 < nbMatchs / 4) {
           f0++;
 
-          teamName0 = element.teams[0].teamName;
-          teamName1 = element.teams[1].teamName;
+          console.log(teamName0);
+          console.log(teamName1);
           matchFase0Left.push(
             matcheh(
               matchup,

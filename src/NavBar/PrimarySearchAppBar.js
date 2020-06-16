@@ -32,8 +32,9 @@ import { notificationActions } from "../_actions";
 import { withStyles } from "@material-ui/core/styles";
 import { InvitesList } from "../NavBar/InvitesList";
 import { useHistory } from "react-router-dom";
-import SendIcon from "@material-ui/icons/Send";
 import Avatar from "@material-ui/core/Avatar";
+import DomainSharpIcon from "@material-ui/icons/DomainSharp";
+import MuseumIcon from "@material-ui/icons/Museum";
 
 // auth utils
 import { isUserAuthenticated } from "../utils/authUtils";
@@ -216,6 +217,10 @@ export const PrimarySearchAppBar = () => {
 
   const routeTournaments = () => {
     let path = `/tournaments`;
+    history.push(path);
+  };
+  const routeMyTournaments = () => {
+    let path = "/Mytournaments";
     history.push(path);
   };
   useEffect(() => {
@@ -424,9 +429,15 @@ export const PrimarySearchAppBar = () => {
         <List>
           <ListItem button onClick={routeTournaments}>
             <ListItemIcon>
-              <SendIcon />
+              <DomainSharpIcon />
             </ListItemIcon>
             <ListItemText primary="Tournaments" />
+          </ListItem>
+          <ListItem button onClick={routeMyTournaments}>
+            <ListItemIcon>
+              <MuseumIcon />
+            </ListItemIcon>
+            <ListItemText primary="My Tournaments" />
           </ListItem>
         </List>
       </Drawer>
