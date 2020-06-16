@@ -28,6 +28,8 @@ import { userActions } from "../_actions";
 import { teamActions } from "../_actions/team.actions";
 import { TransitionAlerts } from "./notification";
 import { Chart } from "./Chart";
+import Divider from '@material-ui/core/Divider';
+
 const useStylesList = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -116,7 +118,53 @@ title: {
     justifyContent:"space-evenly"
   }
 }));
-export const TeamList = () => {
+const useStyles = makeStyles((theme) => ({
+    root: {
+      width: '100%',
+    },
+    heading: {
+      fontSize: theme.typography.pxToRem(15),
+    },
+    secondaryHeading: {
+      fontSize: theme.typography.pxToRem(15),
+      color: theme.palette.text.secondary,
+    },
+    icon: {
+      verticalAlign: 'bottom',
+      height: 20,
+      width: 20,
+    },
+    details: {
+      alignItems: 'center',
+    },
+    column: {
+      flexBasis: '33.33%',
+    },
+    helper: {
+      borderLeft: `2px solid ${theme.palette.divider}`,
+      padding: theme.spacing(1, 2),
+    },
+    link: {
+      color: theme.palette.primary.main,
+      textDecoration: 'none',
+      '&:hover': {
+        textDecoration: 'underline',
+      },
+      root: {
+        backgroundColor: theme.palette.background.paper,
+        width: 700,
+      },
+      small: {
+        width: theme.spacing(8),
+        height: theme.spacing(8),
+      },
+      large: {
+        width: theme.spacing(9),
+        height: theme.spacing(9),
+      },
+    },
+  }));
+export const AllLists = () => {
   const dispatch = useDispatch();
   const classesList = useStylesList();
   const teams = useSelector(state => state.teams);
@@ -125,7 +173,12 @@ export const TeamList = () => {
     setOpen(true);
   };
   const [success, setSuccess] = useState(false)
+  const [expanded, setExpanded] = React.useState(false);
 
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  const classes = useStyles();
   const handleClose = () => {
     setTimeout(() => {
       setSuccess(true)
@@ -135,114 +188,130 @@ export const TeamList = () => {
   };
   return teams.map(key => {
     return (
-     
+        <ExpansionPanel  style={{ width: "800px" ,marginLeft:"210px"}}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1c-content"
+          id="panel1c-header"
+        >
+          <div className={classes.column}>
+            <Typography className={classes.heading}>All Teams</Typography>
+          </div>
+          <div className={classes.column}>
+            <Typography className={classes.secondaryHeading}>{key.teamName}</Typography>
+          </div>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.details}>
+       
       <div key={key._id}>
 
-        <div className={classesList.rootEx}>
-          
-            <div>
-              <div className={classesList.column}>
-                <Avatar
-                  alt="Remy Sharp"
-                  src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
-                />
-              </div>
-              <div className={classesList.column}>
-                <div>
-                <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} ><h2> {key.teamName}</h2></Typography>  
-                </div>
-              </div>
-              </div>
-            <ExpansionPanelDetails >
-           
-            <Card className={classesList.card}>
-      <CardContent>
-                <div className={classesList.column1}   >
-        <div  className={classesList.item}>
-        <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} >TEAM LEADER</Typography>
-                <ListItemAvatar>
-                  <Avatar
-                    className={classesList.large}
-                    alt="Remy Sharp"
-                    src="https://trello-members.s3.amazonaws.com/5c6de55525f9520704469c66/555576654b9ba02ff939998a2baff98e/original.png"
-                  />
-                </ListItemAvatar>
+<div className={classesList.rootEx}>
+  
+    <div>
+      <div className={classesList.column}>
+        <Avatar
+          alt="Remy Sharp"
+          src="https://dt2sdf0db8zob.cloudfront.net/wp-content/uploads/2019/08/10-Best-Gaming-Team-Logos-and-How-to-Make-Your-Own-CurrentYear-image1-1.png"
+        />
+      </div>
+      <div className={classesList.column}>
+        <div>
+        <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} ><h2> {key.teamName}</h2></Typography>  
+        </div>
+      </div>
+      </div>
+    <ExpansionPanelDetails >
+   
+    <Card className={classesList.card}>
+<CardContent>
+        <div className={classesList.column1}   >
+<div  className={classesList.item}>
+<Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} >TEAM LEADER</Typography>
+        <ListItemAvatar>
+          <Avatar
+            className={classesList.large}
+            alt="Remy Sharp"
+            src="https://trello-members.s3.amazonaws.com/5c6de55525f9520704469c66/555576654b9ba02ff939998a2baff98e/original.png"
+          />
+        </ListItemAvatar>
 
-        <div className={classesList.infos}  >
-        <Typography variant="body2" color="textSecondary" component="p">
-           Username
-            </Typography>
-           <Typography gutterBottom variant="h6" component="h2">
-           {key.teamLeader.username}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Team Name
-            </Typography>
-           <Typography gutterBottom variant="h6" component="h2">
-          { key.teamName}
-          </Typography></div>
-        </div>
-        
-        </div>
-              
+<div className={classesList.infos}  >
+<Typography variant="body2" color="textSecondary" component="p">
+   Username
+    </Typography>
+   <Typography gutterBottom variant="h6" component="h2">
+   {key.teamLeader.username}
+  </Typography>
+  <Typography variant="body2" color="textSecondary" component="p">
+    Team Name
+    </Typography>
+   <Typography gutterBottom variant="h6" component="h2">
+  { key.teamName}
+  </Typography></div>
+</div>
+
+</div>
+      
 </CardContent>
 </Card>
 <div className={classesList.box1} ></div>
-              <Card className={classesList.card}>
-      <CardContent>
-                <div className={classesList.column1}   >
-        <div  className={classesList.item}>
-        <Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} >TEAM MEMBERS</Typography>
-            
+      <Card className={classesList.card}>
+<CardContent>
+        <div className={classesList.column1}   >
+<div  className={classesList.item}>
+<Typography className={classesList.title} color="textSecondary" gutterBottom fontSize="h6.fontSize" m={1} >TEAM MEMBERS</Typography>
+    
 
-        </div>
-        
-        </div>
-              <ExpansionPanelActions>
-              <Button variant="contained" color="secondary" onClick={handleClickOpen}>
-                <GroupAddRoundedIcon ></GroupAddRoundedIcon> 
-               Invite
-              </Button>
-              <Button variant="contained" color="secondary" onClick={()=>dispatch(teamActions.deleteTeam())}>
-                <DeleteForeverIcon ></DeleteForeverIcon> 
-               Delete
-              </Button>
-            </ExpansionPanelActions>
+</div>
+
+</div>
+      <ExpansionPanelActions>
+      <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        <GroupAddRoundedIcon ></GroupAddRoundedIcon> 
+       Invite
+      </Button>
+     
+    </ExpansionPanelActions>
 </CardContent>
 </Card> 
-            </ExpansionPanelDetails>
-            
-         
+    </ExpansionPanelDetails>
+    
+ 
 
-          <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Invite Your Team</DialogTitle>
-        <DialogContent>
-        <TeamInvite/>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Send
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Chart/> 
+  <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+<DialogTitle id="form-dialog-title">Invite Your Team</DialogTitle>
+<DialogContent>
+<TeamInvite/>
+</DialogContent>
+<DialogActions>
+  <Button onClick={handleClose} color="primary">
+    Cancel
+  </Button>
+  <Button onClick={handleClose} color="primary">
+    Send
+  </Button>
+</DialogActions>
+</Dialog>
 
-        </div>
-         
-        {
+
+</div>
+ 
+{
 success && <TransitionAlerts/> 
 }
-        
-      </div>
+
+</div>
+        </ExpansionPanelDetails>
+        <Divider />
+       
+      </ExpansionPanel>
+
       
     );
   });
 };
 
-export default TeamList;
+export default AllLists;
 export const TeamInvite = () => {
   
   const user = useSelector(state => state.authentication.user)

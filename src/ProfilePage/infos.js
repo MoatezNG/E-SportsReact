@@ -260,6 +260,7 @@ export  function InfosUser() {
         { user.name
             }
         </div>
+        
         </div>
       </CardContent>
     </Card>

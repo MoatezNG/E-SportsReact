@@ -9,6 +9,7 @@ import { HomePage } from "../HomePage";
 import { LoginPage } from "../LoginPage";
 import { RegisterPage } from "../RegisterPage";
 import { ProfilePage } from "../ProfilePage";
+import { AllTeams } from "../ProfilePage/AllTeams";
 import { Tournament } from "../_components/Tournament";
 import { PrimarySearchAppBar } from "../NavBar/PrimarySearchAppBar";
 import {ProfileInfos} from "../ProfilePage/ProfileInfos";
@@ -43,7 +44,7 @@ class App extends React.Component {
                 <PrivateRoute exact path="/profile" component={ProfilePage} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
-                <Route path="/tournaments" component={Tournament} />
+                <Route path="/teams" component={AllTeams} />
                 <PrivateRoute exact path="/user-profile" component={UsersProfile} />
 
               </div>

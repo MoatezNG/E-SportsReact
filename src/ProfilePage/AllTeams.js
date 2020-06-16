@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { useStyles } from "../HomePage/HomePage";
-import { TeamList } from "./TeamList";
+import { AllLists } from "./AllLists";
 import { useSelector, useDispatch } from "react-redux";
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,7 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from "clsx";
 
-export const Team = () => {
+export const AllTeams = () => {
   const open = useSelector(state => state.drawer);
   const useStyless = makeStyles(theme => ({
     root: {
@@ -75,12 +75,11 @@ const classesList = useStyles();
 
 useEffect(() => {
   console.log("l")
-dispatch(teamActions.getMyTeam());
+dispatch(teamActions.getAllteams());
 }, []);
 
   return (
     <div>
-    
       {team.length ? (
         <main
         className={clsx(classesList.content, {
@@ -89,7 +88,7 @@ dispatch(teamActions.getMyTeam());
       >
       
         <div style={{ marginLeft: "270px" }}>   
-        <TeamList key="1" />
+        <AllLists key="1" />
         </div>
       </main>
 

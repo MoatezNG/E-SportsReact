@@ -464,11 +464,14 @@ export const PrimarySearchAppBar = () => {
         </div>
         <Divider />
         <List>
-          <ListItem button onClick={routeTournaments}>
+          <ListItem >
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
-            <ListItemText primary="Tournaments" />
+            <Link to="/teams">  
+            <ListItemText primary="Teams" />
+            </Link>
+
           </ListItem>
         </List>
       </Drawer>

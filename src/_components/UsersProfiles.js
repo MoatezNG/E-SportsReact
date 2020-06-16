@@ -26,6 +26,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrophy , faAward ,faMedal} from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from "react-router-dom";
+import GroupAddRoundedIcon from '@material-ui/icons/GroupAddRounded';
 
 const useStyles = makeStyles({
   root: {
@@ -258,6 +259,10 @@ export  function UsersProfile() {
         { user.name
             }
         </div>
+        <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+        <GroupAddRoundedIcon ></GroupAddRoundedIcon> 
+       Invite To Join
+      </Button>
         </div>
       </CardContent>
     </Card>
